@@ -34,7 +34,7 @@
 }
 
 .circular-btn:hover {
-  background-color: #274494;
+  background-color: #274494 !important;
 }
 
 

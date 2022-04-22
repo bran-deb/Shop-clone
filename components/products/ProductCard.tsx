@@ -1,6 +1,7 @@
-import { FC, useEffect, useMemo, useState } from "react";
+import { FC, useMemo, useState } from "react";
+import NextLink from 'next/link'
 
-import { Box, Card, CardActionArea, CardMedia, Grid, Typography } from "@mui/material";
+import { Box, Card, CardActionArea, CardMedia, Grid, Link, Typography } from "@mui/material";
 
 import { IProduct } from "../../interfaces";
 
@@ -29,17 +30,34 @@ export const ProductCard: FC<Props> = ({ product }) => {
             onMouseLeave={() => setIsHoverated(false)}
         >
             <Card>
-                <CardActionArea>
-                    <CardMedia          //carga bajo demanda
-                        component={'img'}
-                        className='fadeIn'
-                        image={productImage}
-                        alt={product.title}
-                    // onLoad={() => console.log('termino carga')}      //loader
-                    />
+                <NextLink href={'/product/slug'} passHref prefetch={false}>
+                    <Link>
+                        <CardActionArea>
+                            <CardMedia          //carga bajo demanda
+                                component={'img'}
+                                className='fadeIn'
+                                image={productImage}
+                                alt={product.title}
+                            // onLoad={() => console.log('termino carga')}      //loader
+                            />
+                            {/* NOTE: otra forma  */}
+                        </CardActionArea>
+                    </Link>
+                </NextLink>
+            </Card>
+            <Box sx={{ mt: 1 }} className='fadeIn'>
+                <Typography fontWeight={600}>{product.title}</Typography>
+                <Typography fontWeight={600}>${product.price}</Typography>
+            </Box>
+        </Grid>
+    )
+};
 
-                    {/* NOTE: otra forma  */}
-                    {/* {isHovered
+
+
+
+
+{/* {isHovered
                         ? (
                             <CardMedia
                                 component={'img'}
@@ -56,13 +74,3 @@ export const ProductCard: FC<Props> = ({ product }) => {
                                 alt={product.title}
                             />
                         )} */}
-                </CardActionArea>
-            </Card>
-
-            <Box sx={{ mt: 1 }} className='fadeIn'>
-                <Typography fontWeight={600}>{product.title}</Typography>
-                <Typography fontWeight={600}>${product.price}</Typography>
-            </Box>
-        </Grid>
-    )
-};

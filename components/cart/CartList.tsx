@@ -12,7 +12,21 @@ const productsInCart = [
     initialData.products[2],
 ]
 
-export const CartList: FC = () => {
+interface Props {
+    editable: boolean
+}
+
+export const CartList: FC<Props> = ({ editable }) => {
+
+    const deleteButton = () => {
+        if (editable)
+            return <Button variant='text' color='warning'>Remover</Button>
+    }
+    const counterButton = () => {
+        if (editable) return <ItemCounter />
+        return <Typography variant="h5" >3</Typography>
+    }
+
     return (
         <>
             {//(spacing) para separar los child
@@ -38,17 +52,16 @@ export const CartList: FC = () => {
                                 <Typography variant="body1">{product.title}</Typography>
                                 <Typography variant="body1">Talla: <strong>M</strong></Typography>
 
-                                {/* Conditional */}
-                                <ItemCounter />
+                                {counterButton()}
+
                             </Box>
                         </Grid>
 
                         <Grid item xs={3} display='flex' alignItems='center' flexDirection='column'>
                             <Typography variant='subtitle1'>{`$${product.price}`}</Typography>
-                            {/* Editable */}
-                            <Button variant='text' color='warning'>
-                                Remover
-                            </Button>
+
+                            {deleteButton()}
+
                         </Grid>
                     </Grid>
                 ))

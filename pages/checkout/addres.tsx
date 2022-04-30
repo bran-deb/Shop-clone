@@ -1,4 +1,5 @@
-import { Box, Button, FormControl, Grid, MenuItem, Select, TextField, Typography } from "@mui/material";
+import NextLink from 'next/link'
+import { Box, Button, FormControl, Grid, Link, MenuItem, Select, TextField, Typography } from "@mui/material";
 
 import { ShopLayout } from "../../components/layouts";
 
@@ -49,9 +50,13 @@ const Addres = () => {
             </Grid>
 
             <Box sx={{ mt: 5 }} display='flex' justifyContent='center'>
-                <Button color='secondary' className='circular-btn' size='large'>
-                    Revisar pedido
-                </Button>
+                <NextLink href='/checkout/sumary' passHref>
+                    <Link>
+                        <Button color='secondary' className='circular-btn' size='large'>
+                            Revisar pedido
+                        </Button>
+                    </Link>
+                </NextLink>
             </Box>
         </ShopLayout >
     )

@@ -13,10 +13,10 @@ const productsInCart = [
 ]
 
 interface Props {
-    editable: boolean
+    editable?: boolean
 }
 
-export const CartList: FC<Props> = ({ editable }) => {
+export const CartList: FC<Props> = ({ editable = false }) => {
 
     const deleteButton = () => {
         if (editable)
@@ -38,7 +38,7 @@ export const CartList: FC<Props> = ({ editable }) => {
                             <NextLink href={'/product/slug'} passHref>
                                 <Link>
                                     <CardActionArea>
-                                        <CardMedia image={`products/${product.images[0]}`}
+                                        <CardMedia image={`/products/${product.images[0]}`}
                                             component='img'
                                             sx={{ borderRadius: 0.5 }}
                                         />

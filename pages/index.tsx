@@ -15,9 +15,7 @@ const Home: NextPage = () => {
       <Typography variant="h1" component='h1'>Tienda</Typography>
       <Typography variant="h2" component='h2' sx={{ mb: 1 }}>Todos los productos</Typography>
 
-      <ProductList products={initialData.products as any}
-      />
-
+      <ProductList products={initialData.products as any} />
     </ShopLayout>
   )
 }

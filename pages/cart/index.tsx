@@ -1,7 +1,9 @@
-import { Card, Grid, CardContent, Typography, Divider, Box, Button } from '@mui/material';
-import { CartList } from '../../components/cart';
+import NextLink from 'next/link'
 
-import { ShopLayout } from '../../components/layouts/ShopLayout';
+import { Card, Grid, CardContent, Typography, Divider, Box, Button, Link } from '@mui/material';
+
+import { CartList, OrderSumary } from '../../components/cart';
+import { ShopLayout } from '../../components/layouts';
 
 
 
@@ -12,21 +14,26 @@ const CartPage = () => {
 
       <Grid container>
         <Grid item xs={12} sm={7}>
-          <CartList />
+          <CartList editable={true} />
         </Grid>
 
-        <Grid item xs={12} sm={5}>
+        <Grid item xs={12} sm={5} >
           <Card className='summary-card'>
             <CardContent>
               <Typography variant='h2'>Orden</Typography>
 
               <Divider sx={{ my: 1 }} />
 
-              {/* order Sumary */}
+              <OrderSumary />
+
               <Box sx={{ mt: 3 }}>
-                <Button color='secondary' className='circular-btn' fullWidth>
-                  Checkout
-                </Button>
+                <NextLink href='/checkout/addres' passHref>
+                  <Link>
+                    <Button color='secondary' className='circular-btn' fullWidth>
+                      Checkout
+                    </Button>
+                  </Link>
+                </NextLink>
               </Box>
             </CardContent>
           </Card>

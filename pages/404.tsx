@@ -4,7 +4,7 @@ import Image from "next/image";
 import { Box, Typography } from "@mui/material";
 
 import { ShopLayout } from "../components/layouts";
-import image404 from '../public/img/404.jpg'
+import image404 from '../public/img/404.svg'
 
 const Custom404: NextPage = () => {
     return (

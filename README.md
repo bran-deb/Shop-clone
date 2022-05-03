@@ -1,5 +1,24 @@
 🛒 Clone Shop
 
+to run locally you need the database
+```
+docker-compose up -d
+```
+
+-d for __detached__
+
+## Configurar las variables de entorno
+renombrar el archivo __.env.development.template__ a __.env__
+* connect to database MongoDB URL Local:
+```
+MONGO_URL=mongodb://localhost:27017/tesladb
+```
+
+## llenar la base de datos con informacion de pruebas
+```
+http://localhost:3000/api/seed
+```
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started

@@ -38,7 +38,8 @@ const productSchema = new Schema({
 }, {
     timestamps: true
 })
-//TODO: Crear indice de Mongo
+/*NOTE: It's creating a text index for the title and tags fields. */
+productSchema.index({ title: 'text', tags: 'text' })
 
 /* Checking if the model already exists and if it does it uses it, if it doesn't it creates it. */
 const Product: Model<IProduct> = mongoose.models.Product || model('Product', productSchema)

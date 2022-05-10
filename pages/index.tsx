@@ -5,11 +5,12 @@ import { Typography } from '@mui/material'
 // import { initialData } from '../database/products'
 import { ShopLayout } from '../components/layouts'
 import { ProductList } from '../components/products'
+import { FullScreenLoading } from '../components/ui'
 import { useProducts } from '../hooks'
 
 
 const Home: NextPage = () => {
-
+  /* A custom hook that is fetching the data from the API. */
   const { products, isLoading } = useProducts('/products')
 
   return (
@@ -19,7 +20,7 @@ const Home: NextPage = () => {
 
       {
         isLoading
-          ? <h1>Cargando...</h1>
+          ? <FullScreenLoading />
           : <ProductList products={products} />
       }
 

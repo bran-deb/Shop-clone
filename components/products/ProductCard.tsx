@@ -13,6 +13,8 @@ interface Props {
 export const ProductCard: FC<Props> = ({ product }) => {
 
     const [isHovered, setIsHoverated] = useState(false);
+    const [isImageLoaded, setIsImageLoaded] = useState(false);
+
 
     const productImage = useMemo(() => {
         return isHovered
@@ -38,6 +40,7 @@ export const ProductCard: FC<Props> = ({ product }) => {
                                 className='fadeIn'
                                 image={productImage}
                                 alt={product.title}
+                                onLoad={() => setIsImageLoaded(true)}
                             // onLoad={() => console.log('termino carga')}      //loader
                             />
                             {/* NOTE: otra forma  */}
@@ -45,7 +48,12 @@ export const ProductCard: FC<Props> = ({ product }) => {
                     </Link>
                 </NextLink>
             </Card>
-            <Box sx={{ mt: 1 }} className='fadeIn'>
+            <Box
+                sx={{
+                    mt: 1,
+                    display: isImageLoaded ? 'block' : 'none'
+                }}
+                className='fadeIn'>
                 <Typography fontWeight={600}>{product.title}</Typography>
                 <Typography fontWeight={600}>${product.price}</Typography>
             </Box>

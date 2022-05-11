@@ -2,6 +2,7 @@ import '../styles/globals.css';
 import type { AppProps } from 'next/app';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 
+import { UIProvider } from '../context';
 import { lightTheme } from '../themes';
 import { SWRConfig } from 'swr';
 
@@ -15,10 +16,12 @@ function MyApp({ Component, pageProps }: AppProps) {
         // refreshInterval: 3000,
       }}
     >
-      <ThemeProvider theme={lightTheme}>
-        <CssBaseline />
-        <Component {...pageProps} />
-      </ThemeProvider>
+      <UIProvider>
+        <ThemeProvider theme={lightTheme}>
+          <CssBaseline />
+          <Component {...pageProps} />
+        </ThemeProvider>
+      </UIProvider>
     </SWRConfig>
   )
 }

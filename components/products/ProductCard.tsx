@@ -32,7 +32,7 @@ export const ProductCard: FC<Props> = ({ product }) => {
             onMouseLeave={() => setIsHoverated(false)}
         >
             <Card>
-                <NextLink href={'/product/slug'} passHref prefetch={false}>
+                <NextLink href={`/product/${product.slug}`} passHref prefetch={false}>
                     <Link>
                         <CardActionArea>
                             <CardMedia          //carga bajo demanda

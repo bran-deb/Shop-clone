@@ -6,11 +6,13 @@ import { initialData } from '../../database/products';
 import { SizeSelector } from '../../components/products';
 
 
-
 const product = initialData.products[0]
 
 
 const ProductPage = () => {
+    // const { query } = useRouter()
+    // const { products: product, isLoading } = useProducts<IProduct>(`/products/${query.slug}`)
+
     return (
         <ShopLayout title={product.title} pageDescription={product.description} >
             <Grid container spacing={3}>

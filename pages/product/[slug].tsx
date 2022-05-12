@@ -1,13 +1,14 @@
-import { NextPage, GetServerSideProps } from 'next';
+import { NextPage, GetStaticProps, GetStaticPaths, GetServerSideProps } from 'next';
 
 import { Box, Grid, Typography, Button, Chip } from '@mui/material';
 
-import { dbProducts } from '../../database';
 import { ProducSlideshow } from '../../components/products';
 import { SizeSelector } from '../../components/products';
 import { ShopLayout } from '../../components/layouts';
 import { ItemCounter } from '../../components/ui';
+import { ProductSlug } from '../../database/dbProducts';
 import { initialData } from '../../database/products';
+import { dbProducts } from '../../database';
 import { IProduct } from '../../interfaces';
 
 
@@ -67,9 +68,27 @@ const ProductPage: NextPage<Props> = ({ product }) => {
 };
 
 
-// You should use getServerSideProps when:
-// - Only if you need to pre-render a page whose data must be fetched at request time
-export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+// You should use getStaticPaths if you’re statically pre-rendering pages that use dynamic routes
+export const getStaticPaths: GetStaticPaths = async (ctx) => {
+
+    const producSlugs: Array<ProductSlug> = await dbProducts.getAllProductSlugs()
+
+    return {
+        paths: producSlugs.map(({ slug }) => ({
+            params: {
+                slug
+            }
+        })),
+        fallback: "blocking"
+    }
+}
+
+
+/**
+ * This function is called at build time and returns an object with the props that will be passed to
+ * the page component.
+ */
+export const getStaticProps: GetStaticProps = async ({ params }) => {
 
     const { slug = '' } = params as { slug: string }
     const product = await dbProducts.getProductBySlug(slug)
@@ -78,7 +97,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
         return {
             redirect: {
                 destination: '/',
-                permanent: false,
+                permanent: false
             }
         }
     }
@@ -86,8 +105,37 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
     return {
         props: {
             product
-        }
+        },
+        /* It's telling Next.js to re-generate the page every 24 hours. */
+        revalidate: 86400,//= 60s * 60m * 24h
     }
 }
+
+
+
+
+// You should use getServerSideProps when:
+// - Only if you need to pre-render a page whose data must be fetched at request time
+//NOTE: SSR
+// export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+
+//     const { slug = '' } = params as { slug: string }
+//     const product = await dbProducts.getProductBySlug(slug)
+
+//     if (!product) {
+//         return {
+//             redirect: {
+//                 destination: '/',
+//                 permanent: false,
+//             }
+//         }
+//     }
+
+//     return {
+//         props: {
+//             product
+//         }
+//     }
+// }
 
 export default ProductPage;

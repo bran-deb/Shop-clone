@@ -11,9 +11,7 @@ import { initialData } from '../../database/products';
 import { dbProducts } from '../../database';
 import { IProduct } from '../../interfaces';
 
-
-const product = initialData.products[0]
-
+// const product = initialData.products[0]
 
 interface Props {
     product: IProduct;

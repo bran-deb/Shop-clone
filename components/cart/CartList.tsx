@@ -1,9 +1,10 @@
 import { FC } from "react"
-
 import NextLink from 'next/link'
+
 import { Box, Button, CardActionArea, CardMedia, Grid, Link, Typography } from "@mui/material"
 import { initialData } from "../../database/products"
 import { ItemCounter } from "../ui"
+import { Card } from "@mui/material"
 
 
 const productsInCart = [
@@ -34,17 +35,20 @@ export const CartList: FC<Props> = ({ editable = false }) => {
                     <Grid container spacing={2} key={product.slug} sx={{ mb: 1 }}>
 
                         <Grid item xs={3}>
-                            {/* TODO: llevar a la pagina del producto */}
-                            <NextLink href={'/product/slug'} passHref>
-                                <Link>
-                                    <CardActionArea>
-                                        <CardMedia image={`/products/${product.images[0]}`}
-                                            component='img'
-                                            sx={{ borderRadius: 0.5 }}
-                                        />
-                                    </CardActionArea>
-                                </Link>
-                            </NextLink>
+                            <Card>
+                                {/* TODO: llevar a la pagina del producto */}
+                                <NextLink href={`/product/${product.slug}`} passHref prefetch={false}>
+                                    <Link>
+                                        <CardActionArea>
+                                            <CardMedia image={`/products/${product.images[0]}`}
+                                                component='img'
+                                                alt={product.title}
+                                                sx={{ borderRadius: 0.5 }}
+                                            />
+                                        </CardActionArea>
+                                    </Link>
+                                </NextLink>
+                            </Card>
                         </Grid>
 
                         <Grid item xs={6}>

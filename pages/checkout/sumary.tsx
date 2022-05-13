@@ -1,3 +1,4 @@
+import { NextPage } from 'next';
 import NextLink from 'next/link'
 
 import { Card, Grid, CardContent, Typography, Divider, Box, Button, Link } from '@mui/material';
@@ -6,8 +7,7 @@ import { CartList, OrderSumary } from '../../components/cart';
 import { ShopLayout } from '../../components/layouts';
 
 
-
-const Sumary = () => {
+const SumaryPage: NextPage = () => {
     return (
         <ShopLayout title='Resumen de la orden' pageDescription='Resumen de la orden'>
             <Typography variant="h1" component='h1'>Resumen de la orden</Typography>
@@ -69,4 +69,4 @@ const Sumary = () => {
     )
 }
 
-export default Sumary
+export default SumaryPage

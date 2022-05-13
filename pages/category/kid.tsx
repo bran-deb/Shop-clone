@@ -1,5 +1,3 @@
-import { NextPage } from 'next'
-
 import { Typography } from "@mui/material"
 
 import { useProducts } from "../../hooks"
@@ -7,8 +5,7 @@ import { ProductList } from "../../components/products"
 import { ShopLayout } from "../../components/layouts"
 import { FullScreenLoading } from "../../components/ui"
 
-
-const KidPage: NextPage = () => {
+const Kid = () => {
 
     const { products, isLoading } = useProducts('/products?gender=kid')
 
@@ -25,4 +22,4 @@ const KidPage: NextPage = () => {
     )
 }
 
-export default KidPage
+export default Kid

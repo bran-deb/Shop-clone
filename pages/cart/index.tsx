@@ -1,4 +1,3 @@
-import { NextPage } from 'next';
 import NextLink from 'next/link'
 
 import { Card, Grid, CardContent, Typography, Divider, Box, Button, Link } from '@mui/material';
@@ -8,7 +7,7 @@ import { ShopLayout } from '../../components/layouts';
 
 
 
-const CartPage: NextPage = () => {
+const CartPage = () => {
   return (
     <ShopLayout title='Carrito - 3' pageDescription='Carrito de compras de la tienda'>
       <Typography variant="h1" component='h1'>Carrito</Typography>

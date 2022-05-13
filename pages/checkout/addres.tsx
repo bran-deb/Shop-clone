@@ -1,12 +1,10 @@
-import { NextPage } from 'next';
 import NextLink from 'next/link'
-
 import { Box, Button, FormControl, Grid, Link, MenuItem, Select, TextField, Typography } from "@mui/material";
 
 import { ShopLayout } from "../../components/layouts";
 
 
-const AddresPage: NextPage = () => {
+const Addres = () => {
     return (
         <ShopLayout title={"Direccion"} pageDescription={"Confirmar direccion del destino"}>
             <Typography variant='h1' component='h1'>Direccion</Typography>
@@ -64,4 +62,4 @@ const AddresPage: NextPage = () => {
     )
 }
 
-export default AddresPage
+export default Addres;

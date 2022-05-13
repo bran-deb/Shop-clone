@@ -1,14 +1,14 @@
-import { NextPage } from 'next'
 import NextLink from 'next/link'
 
 import { Card, Grid, CardContent, Typography, Divider, Box, Link, Chip } from '@mui/material';
-import { CreditCardOffOutlined, CreditScoreOutlined } from '@mui/icons-material';
 
 import { CartList, OrderSumary } from '../../components/cart';
 import { ShopLayout } from '../../components/layouts';
+import { CreditCardOffOutlined, CreditScoreOutlined } from '@mui/icons-material';
 
 
-const OrderPage: NextPage = () => {
+
+const OrderPage = () => {
 
     const paid: boolean = true
 

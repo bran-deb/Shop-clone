@@ -1,9 +1,10 @@
-import { NextPage } from 'next';
-import NextLink from 'next/link';
+import NextLink from 'next/link'
 
-import { Box, Button, Grid, Link, TextField, Typography } from "@mui/material";
+import { NextPage } from 'next';
 
 import { AuthLayout } from "../../components/layouts";
+
+import { Box, Button, Grid, Link, TextField, Typography } from "@mui/material";
 
 
 

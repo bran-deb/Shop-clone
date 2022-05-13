@@ -7,7 +7,10 @@ import { IProduct } from '../../../../interfaces'
 
 type Data = | { message: string } | IProduct
 
+
 export default function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
+
+
 
     switch (req.method) {
         case 'GET':
@@ -36,4 +39,6 @@ async function getProductBySlug(req: NextApiRequest, res: NextApiResponse<Data>)
     return res.json(
         productBySlug
     )
+
+
 }

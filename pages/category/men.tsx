@@ -1,4 +1,3 @@
-import { NextPage } from 'next';
 import { Typography } from "@mui/material";
 
 import { useProducts } from "../../hooks";
@@ -6,8 +5,7 @@ import { ProductList } from '../../components/products';
 import { ShopLayout } from "../../components/layouts"
 import { FullScreenLoading } from '../../components/ui';
 
-
-const MenPage: NextPage = () => {
+const Men = () => {
 
     const { products, isLoading } = useProducts('/products?gender=men')
 
@@ -24,4 +22,4 @@ const MenPage: NextPage = () => {
     )
 }
 
-export default MenPage
+export default Men

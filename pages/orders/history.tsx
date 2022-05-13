@@ -1,11 +1,10 @@
-
+import { NextPage } from 'next'
 import NextLink from 'next/link'
 
-import { ShopLayout } from '../../components/layouts/ShopLayout';
-
-import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
 import { Chip, Grid, Link, Typography } from '@mui/material';
+import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
 
+import { ShopLayout } from '../../components/layouts';
 
 
 const columns: GridColDef[] = [
@@ -29,6 +28,7 @@ const columns: GridColDef[] = [
         headerName: 'ver orden',
         description: 'Muestra informacion del producto',
         width: 200,
+        sortable: false,
         renderCell: (params: GridValueGetterParams) => {
             return (
                 <NextLink href={`/orders/${params.row.id}`} passHref>
@@ -50,7 +50,7 @@ const rows = [
     { id: 6, paid: false, fullname: 'Estefany Aguilar' },
 ]
 
-const HistoryPage = () => {
+const HistoryPage: NextPage = () => {
     return (
         <ShopLayout title={'Historial de ordenes'} pageDescription={'Historial de ordenes del cliente'}>
             <Typography variant='h1' component='h1'>Historial de ordenes</Typography>

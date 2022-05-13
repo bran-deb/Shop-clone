@@ -18,10 +18,9 @@ export default function handler(req: NextApiRequest, res: NextApiResponse<Data>)
                 message: 'Bad request'
             })
     }
-
 }
 
-async function searchProducts(req: NextApiRequest, res: NextApiResponse<Data>) {
+const searchProducts = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
 
     let { q = '' } = req.query
 

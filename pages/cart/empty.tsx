@@ -1,11 +1,9 @@
 import NextLiink from 'next/link'
-import Image from "next/image";
 
 import { Box, Link, Typography } from "@mui/material";
+import { RemoveShoppingCartOutlined } from "@mui/icons-material";
 
 import { ShopLayout } from "../../components/layouts";
-import image404 from "../../public/img/404.jpg"
-import { RemoveShoppingCartOutlined } from "@mui/icons-material";
 
 
 const EmptyPage = () => {

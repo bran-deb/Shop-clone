@@ -6,12 +6,11 @@ import { ProducSlideshow } from '../../components/products';
 import { SizeSelector } from '../../components/products';
 import { ShopLayout } from '../../components/layouts';
 import { ItemCounter } from '../../components/ui';
-
+import { initialData } from '../../database/products';
 import { dbProducts } from '../../database';
 import { IProduct } from '../../interfaces';
-// import { initialData } from '../../database/products';
 
-// const product = initialData.products[0]
+const product = initialData.products[0]
 
 
 interface Props {

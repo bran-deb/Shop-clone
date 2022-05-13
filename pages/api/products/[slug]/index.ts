@@ -23,9 +23,9 @@ export default function handler(req: NextApiRequest, res: NextApiResponse<Data>)
 }
 
 async function getProductBySlug(req: NextApiRequest, res: NextApiResponse<Data>) {
-    const { slug } = req.query
 
     await db.connect()
+    const { slug } = req.query
     /* Using the `findOne` method from the `Product` model to find a product by its slug. */
     const productBySlug = await Product.findOne({ slug }).lean()
     await db.disconnect()

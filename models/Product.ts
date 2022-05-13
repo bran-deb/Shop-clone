@@ -10,6 +10,7 @@ const productSchema = new Schema({
     price: { type: Number, required: true, default: 0 },
     sizes: [{
         type: String,
+        required: true,
         enum: {
             values: ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL'],
             message: '{VALUE} no es un tamaño valido'

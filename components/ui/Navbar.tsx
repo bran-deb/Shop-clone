@@ -44,7 +44,7 @@ export const Navbar = () => {
                 </Box>
 
                 <Box flex={1} />
-                <IconButton>
+                <IconButton onClick={toggleSideMenu}>
                     <SearchOutlined />
                 </IconButton>
 

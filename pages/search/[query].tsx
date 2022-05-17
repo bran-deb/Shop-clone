@@ -9,14 +9,17 @@ import { FullScreenLoading } from '../../components/ui'
 import { useProducts } from '../../hooks'
 import { dbProducts } from '../../database'
 import { IProduct } from '../../interfaces'
+import { Box } from '@mui/system'
 // import { useRouter } from 'next/router';
 
 
 interface Props {
     products: IProduct[]
+    foundProducts: boolean
+    query: String
 }
 
-const SearchPage: NextPage<Props> = ({ products }) => {
+const SearchPage: NextPage<Props> = ({ products, foundProducts, query }) => {
     // const { asPath } = useRouter()
     // console.log(asPath);
 
@@ -25,8 +28,23 @@ const SearchPage: NextPage<Props> = ({ products }) => {
 
     return (
         <ShopLayout title={'Teslo-Shop - Home'} pageDescription={'Encuentra los mejores productos'}>
-            <Typography variant="h1" component='h1'>Resultados de Busqueda:</Typography>
-            <Typography variant="h2" component='h2' sx={{ mb: 1 }}>Productos disponibles</Typography>
+            <Typography variant="h1" component='h1'>Resultados de busqueda:</Typography>
+
+            {
+                (foundProducts)
+                    ? (
+                        <Box display='flex'>
+                            <Typography variant="h2" component='h2' sx={{ mb: 1 }}>Productos disponibles de </Typography>
+                            <Typography variant="h2" component='h2' sx={{ ml: 1 }} color="secondary">{query}</Typography>
+                        </Box>
+                    )
+                    : (
+                        <Box display='flex'>
+                            <Typography variant="h2" component='h2' sx={{ mb: 1 }}>No se encontro ningun producto</Typography >
+                            <Typography variant="h2" component='h2' sx={{ ml: 1 }} color="secondary">{query}</Typography >
+                        </Box>
+                    )
+            }
 
             {/* {
                 isLoading
@@ -56,10 +74,22 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
     }
     //si no hay productos en la query
     let products = await dbProducts.getPropductsByTerm(query)
-    //TODO: retornar otros products
+
+    //NOTE: retornar otros products cuando no existen productos en la busqueda
+    const foundProducts = products.length > 0
+
+    if (!foundProducts) {
+        products = await dbProducts.getAllProducts()
+        //TODO: retorno products por cookies
+        // products = await dbProducts.getPropductsByTerm('kids')
+
+    }
+
     return {
         props: {
-            products
+            products,
+            foundProducts,
+            query
         }
     }
 }

@@ -10,7 +10,7 @@ import { ShopLayout } from '../../components/layouts';
 import { ItemCounter } from '../../components/ui';
 import { dbProducts } from '../../database';
 import { ICartProduct, IProduct, ISize } from '../../interfaces';
-import { CartContext } from '../../context/cart/CartContext';
+import { CartContext } from '../../context';
 
 interface Props {
     product: IProduct;

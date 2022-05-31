@@ -4,6 +4,7 @@ import NextLink from 'next/link'
 import { Box, Button, CardActionArea, CardMedia, Grid, Link, Typography } from "@mui/material"
 import { ItemCounter } from "../ui"
 import { CartContext } from '../../context';
+import { ICartProduct } from '../../interfaces';
 
 // const productsInCart = [
 //     initialData.products[0],
@@ -17,7 +18,12 @@ interface Props {
 
 export const CartList: FC<Props> = ({ editable = false }) => {
 
-    const { cart } = useContext(CartContext)
+    const { cart, updateCartQuantity } = useContext(CartContext)
+
+    const onNewCartQuantityValue = (product: ICartProduct, newQuantityValue: number) => {
+        product.quantity = newQuantityValue
+        updateCartQuantity(product)
+    }
 
     const deleteButton = () => {
         if (editable)
@@ -28,7 +34,7 @@ export const CartList: FC<Props> = ({ editable = false }) => {
         <>
             {//(spacing) para separar los child
                 cart.map(product => (
-                    <Grid container spacing={2} key={product.slug} sx={{ mb: 1 }}>
+                    <Grid container spacing={2} key={product.slug + product.size} sx={{ mb: 1 }}>
 
                         <Grid item xs={3}>
                             {/* TODO: llevar a la pagina del producto */}
@@ -47,7 +53,7 @@ export const CartList: FC<Props> = ({ editable = false }) => {
                         <Grid item xs={6}>
                             <Box display='flex' flexDirection='column'>
                                 <Typography variant="body1">{product.title}</Typography>
-                                <Typography variant="body1">Talla: <strong>M</strong></Typography>
+                                <Typography variant="body1">Talla: <strong>{product.size}</strong></Typography>
 
                                 {
                                     // mostrar productos en carrito
@@ -55,7 +61,7 @@ export const CartList: FC<Props> = ({ editable = false }) => {
                                         ? (<ItemCounter
                                             maxValue={10}
                                             currentValue={product.quantity}
-                                            updateQuantity={() => { }} />)
+                                            updateQuantity={(newValue) => onNewCartQuantityValue(product, newValue)} />)
                                         : (<Typography variant="h5">{product.quantity} {product.quantity < 1 ? "products" : product}</Typography>)
                                 }
 

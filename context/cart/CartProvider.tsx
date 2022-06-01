@@ -34,6 +34,20 @@ export const CartProvider: FC = ({ children }) => {
         Cookie.set('cart', JSON.stringify(state.cart))
     }, [state.cart])
 
+    useEffect(() => {
+        const numberOfItems = state.cart.reduce((prev, current) => current.quantity + prev, 0)
+        const subTotal = state.cart.reduce((prev, current) => (current.price * current.quantity) + prev, 0)
+        const taxRate = Number(process.env.NEXT_PUBLIC_TAX_RATE || 0)
+        const orderSumary = {
+            numberOfItems,
+            subTotal,
+            tax: subTotal * taxRate,
+            total: subTotal * (taxRate + 1),
+        }
+
+        console.log(orderSumary);
+    }, [state.cart])
+
     const addProductToCart = (product: ICartProduct) => {
         // const productsInCart = state.cart.filter((p:any) => p._id !== product._id && p !== product.size)
         // dispatch({ type: '[CART] - Add Product', payload: [...productsInCart.product] })

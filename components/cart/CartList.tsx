@@ -18,16 +18,31 @@ interface Props {
 
 export const CartList: FC<Props> = ({ editable = false }) => {
 
-    const { cart, updateCartQuantity } = useContext(CartContext)
+    const { cart, updateCartQuantity, removeCartProduct } = useContext(CartContext)
 
     const onNewCartQuantityValue = (product: ICartProduct, newQuantityValue: number) => {
         product.quantity = newQuantityValue
         updateCartQuantity(product)
     }
 
-    const deleteButton = () => {
-        if (editable)
-            return <Button variant='text' color='warning'>Remover</Button>
+    const counterButton = (product: ICartProduct) => {
+        // mostrar productos en carrito
+        if (editable) {
+            return <ItemCounter
+                maxValue={10}
+                currentValue={product.quantity}
+                updateQuantity={(newValue) => onNewCartQuantityValue(product, newValue)} />
+        } else {
+            return <Typography variant="h5">{product.quantity} {product.quantity > 1 ? "products" : product}</Typography>
+        }
+    }
+
+    const deleteButton = (product: ICartProduct) => {
+        if (editable) return (
+            <Button onClick={() => removeCartProduct(product)} variant='text' color='warning'>
+                Remover
+            </Button>
+        )
     }
 
     return (
@@ -55,15 +70,8 @@ export const CartList: FC<Props> = ({ editable = false }) => {
                                 <Typography variant="body1">{product.title}</Typography>
                                 <Typography variant="body1">Talla: <strong>{product.size}</strong></Typography>
 
-                                {
-                                    // mostrar productos en carrito
-                                    (editable)
-                                        ? (<ItemCounter
-                                            maxValue={10}
-                                            currentValue={product.quantity}
-                                            updateQuantity={(newValue) => onNewCartQuantityValue(product, newValue)} />)
-                                        : (<Typography variant="h5">{product.quantity} {product.quantity < 1 ? "products" : product}</Typography>)
-                                }
+                                {/* mostrar productos en carrito */}
+                                {counterButton(product)}
 
                             </Box>
                         </Grid>
@@ -71,7 +79,8 @@ export const CartList: FC<Props> = ({ editable = false }) => {
                         <Grid item xs={3} display='flex' alignItems='center' flexDirection='column'>
                             <Typography variant='subtitle1'>{`$${product.price}`}</Typography>
 
-                            {deleteButton()}
+                            {/* borrar producto del carrito */}
+                            {deleteButton(product)}
 
                         </Grid>
                     </Grid>

@@ -10,10 +10,21 @@ import { CartContext } from './';
 
 export interface cartState {
     cart: ICartProduct[]
+
+    numberOfItems: number
+    subTotal: number
+    tax: number
+    total: number
+
 }
 
 const CART_INITIAL_STATE: cartState = {
-    cart: []
+    cart: [],
+
+    numberOfItems: 0,
+    subTotal: 0,
+    tax: 0,
+    total: 0,
 }
 
 export const CartProvider: FC = ({ children }) => {
@@ -38,14 +49,14 @@ export const CartProvider: FC = ({ children }) => {
         const numberOfItems = state.cart.reduce((prev, current) => current.quantity + prev, 0)
         const subTotal = state.cart.reduce((prev, current) => (current.price * current.quantity) + prev, 0)
         const taxRate = Number(process.env.NEXT_PUBLIC_TAX_RATE || 0)
+
         const orderSumary = {
             numberOfItems,
             subTotal,
             tax: subTotal * taxRate,
             total: subTotal * (taxRate + 1),
         }
-
-        console.log(orderSumary);
+        dispatch({ type: '[CART] - Update order sumary', payload: orderSumary })
     }, [state.cart])
 
     const addProductToCart = (product: ICartProduct) => {

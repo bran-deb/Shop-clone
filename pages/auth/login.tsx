@@ -2,11 +2,11 @@ import NextLink from 'next/link'
 
 import { NextPage } from 'next';
 
+import { Box, Button, Grid, Link, TextField, Typography } from "@mui/material";
 import { useForm } from 'react-hook-form';
 
 import { AuthLayout } from "../../components/layouts";
-
-import { Box, Button, Grid, Link, TextField, Typography } from "@mui/material";
+import { validations } from '../../utilities';
 
 
 type FormData = {
@@ -17,6 +17,7 @@ type FormData = {
 const LoginPage: NextPage = () => {
 
     const { register, handleSubmit, formState: { errors } } = useForm<FormData>()
+    console.log({ errors });
 
     const onLoginUser = (data: FormData) => {
         console.log({ data });
@@ -38,7 +39,13 @@ const LoginPage: NextPage = () => {
                                 label='Correo'
                                 type='email'
                                 variant='filled'
-                                {...register('email')}
+                                {...register('email', {
+                                    required: 'Este campo es requerido',
+                                    /* A custom validation function. */
+                                    validate: validations.isEmail
+                                })}
+                                error={!!errors.email}
+                                helperText={errors.email?.message}
                             />
                         </Grid>
 
@@ -48,7 +55,12 @@ const LoginPage: NextPage = () => {
                                 label='Contraseña'
                                 type='password'
                                 variant='filled'
-                                {...register('password')}
+                                {...register('password', {
+                                    required: 'Este campo es requerido',
+                                    minLength: { value: 6, message: "Minimo 6 caracteres" }
+                                })}
+                                error={!!errors.password}
+                                helperText={errors.password?.message}
                             />
                         </Grid>
 

@@ -7,6 +7,7 @@ import { useForm } from 'react-hook-form';
 
 import { AuthLayout } from "../../components/layouts";
 import { validations } from '../../utilities';
+import { teslaApi } from '../../api';
 
 
 type FormData = {
@@ -17,11 +18,19 @@ type FormData = {
 const LoginPage: NextPage = () => {
 
     const { register, handleSubmit, formState: { errors } } = useForm<FormData>()
-    console.log({ errors });
+    // console.log({ errors });
 
-    const onLoginUser = (data: FormData) => {
-        console.log({ data });
+    const onLoginUser = async ({ email, password }: FormData) => {
+        try {
+            /* Making a post request to the server with the email and password. */
+            const { data } = await teslaApi.post('/user/login', { email, password })
+            const { token, user } = data
+            console.log({ token, user });
 
+
+        } catch (error) {
+            console.log('error en las credenciales');
+        }
     }
 
     return (

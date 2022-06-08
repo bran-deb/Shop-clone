@@ -1,12 +1,15 @@
+import { useState } from 'react';
+import { NextPage } from 'next';
 import NextLink from 'next/link'
 
-import { NextPage } from 'next';
-
-import { Box, Button, Grid, Link, TextField, Typography } from "@mui/material";
+import { Box, Button, Chip, Grid, Link, TextField, Typography } from "@mui/material";
+import { ErrorOutline } from '@mui/icons-material';
 import { useForm } from 'react-hook-form';
 
 import { AuthLayout } from "../../components/layouts";
 import { validations } from '../../utilities';
+import { teslaApi } from '../../api';
+import { width } from '@mui/system';
 
 
 type FormData = {
@@ -17,11 +20,26 @@ type FormData = {
 const LoginPage: NextPage = () => {
 
     const { register, handleSubmit, formState: { errors } } = useForm<FormData>()
-    console.log({ errors });
+    // console.log({ errors });
+    const [showError, setShowError] = useState(false);
 
-    const onLoginUser = (data: FormData) => {
-        console.log({ data });
 
+    const onLoginUser = async ({ email, password }: FormData) => {
+
+        setShowError(false)
+        try {
+            /* Making a post request to the server with the email and password. */
+            const { data } = await teslaApi.post('/user/login', { email, password })
+            const { token, user } = data
+            console.log({ token, user });
+
+        } catch (error) {
+            console.log('error en las credenciales');
+            setShowError(true)
+            setTimeout(() => { setShowError(false) }, 3000);
+        }
+
+        //TODO: navegar a la pantalla anterior
     }
 
     return (
@@ -31,6 +49,14 @@ const LoginPage: NextPage = () => {
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
                             <Typography variant="h1" component="h1">Iniciar Sesion</Typography>
+
+                            <Chip
+                                label='No se reconoce el usuario / contraseña'
+                                color='error'
+                                icon={<ErrorOutline />}
+                                className='fadeIn'
+                                sx={{ display: showError ? 'flex' : 'contents' }}
+                            />
                         </Grid>
 
                         <Grid item xs={12}>

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { NextPage } from 'next';
 import NextLink from 'next/link';
 
@@ -7,6 +7,8 @@ import { ErrorOutline } from '@mui/icons-material';
 import { useForm } from 'react-hook-form';
 
 import { AuthLayout } from '../../components/layouts';
+import { useRouter } from 'next/router';
+import { AuthContext } from '../../context';
 import { validations } from '../../utilities';
 import { teslaApi } from '../../api';
 
@@ -18,22 +20,23 @@ type FormData = {
 
 const RegisterPage: NextPage = () => {
 
+    const router = useRouter()
+    const { registerUser } = useContext(AuthContext);
     const { register, handleSubmit, formState: { errors } } = useForm<FormData>()
-    // console.log({ errors });
     const [showError, setShowError] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
+
 
     const onRegisterForm = async ({ name, email, password }: FormData) => {
-        try {
-            setShowError(false)
-            const { data } = await teslaApi.post('/user/register', { name, email, password })
-            const { token, user } = data
-            console.log({ token, user });
-
-        } catch (error) {
+        setShowError(false)
+        const { hasError, message } = await registerUser(name, email, password)
+        if (hasError) {
             setShowError(true)
+            setErrorMessage(message || '')
             setTimeout(() => { setShowError(false) }, 3000);
-            console.log('error en las credenciales');
+            return;
         }
+        router.replace('/')
     }
 
     return (

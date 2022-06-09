@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { NextPage } from 'next';
+import { useRouter } from 'next/router';
 import NextLink from 'next/link'
 
 import { Box, Button, Chip, Grid, Link, TextField, Typography } from "@mui/material";
@@ -7,9 +8,9 @@ import { ErrorOutline } from '@mui/icons-material';
 import { useForm } from 'react-hook-form';
 
 import { AuthLayout } from "../../components/layouts";
+import { AuthContext } from '../../context';
 import { validations } from '../../utilities';
 import { teslaApi } from '../../api';
-import { width } from '@mui/system';
 
 
 type FormData = {
@@ -19,27 +20,23 @@ type FormData = {
 
 const LoginPage: NextPage = () => {
 
+    const router = useRouter()
+    const { loginUser, } = useContext(AuthContext);
     const { register, handleSubmit, formState: { errors } } = useForm<FormData>()
-    // console.log({ errors });
     const [showError, setShowError] = useState(false);
 
-
+    //  * "If the user is not logged in, show an error message for 3 seconds, otherwise redirect the user
+    //  * to the home page."
     const onLoginUser = async ({ email, password }: FormData) => {
-
         setShowError(false)
-        try {
-            /* Making a post request to the server with the email and password. */
-            const { data } = await teslaApi.post('/user/login', { email, password })
-            const { token, user } = data
-            console.log({ token, user });
+        const isValidLogin = await loginUser(email, password)
 
-        } catch (error) {
-            console.log('error en las credenciales');
+        if (!isValidLogin) {
             setShowError(true)
             setTimeout(() => { setShowError(false) }, 3000);
+            return;
         }
-
-        //TODO: navegar a la pantalla anterior
+        router.replace('/')
     }
 
     return (

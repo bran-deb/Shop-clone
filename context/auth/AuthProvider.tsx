@@ -26,6 +26,8 @@ export const AuthProvider: FC = ({ children }) => {
     }, [])
 
     const checkToken = async () => {
+        //si no esta autenticado no realiza ninguna accion
+        if (!Cookies.get('token')) return;
 
         try {
             const { data } = await teslaApi.get('/user/validate-token')

@@ -36,7 +36,10 @@ const LoginPage: NextPage = () => {
             setTimeout(() => { setShowError(false) }, 3000);
             return;
         }
-        router.replace('/')
+        /* Checking if there is a query parameter called p, and if there is, it is redirecting to that
+        page. If there is no query parameter, it is redirecting to the home page. */
+        const destination = router.query.p?.toString() || '/'
+        router.replace(destination)
     }
 
     return (

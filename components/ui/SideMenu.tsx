@@ -9,11 +9,11 @@ import { useRouter } from 'next/router';
 
 export const SideMenu = () => {
 
-    const { isLoggedIn, user } = useContext(AuthContext);
+    const { isLoggedIn, logoutUser, user } = useContext(AuthContext);
     const { isMenuOpen, toggleSideMenu } = useContext(UIContext);
     const [searchTerm, setSearchTerm] = useState('');
 
-    const route = useRouter()
+    const router = useRouter()
 
     const onSearchTerm = () => {
         if (searchTerm.trim().length === 0) return
@@ -24,7 +24,7 @@ export const SideMenu = () => {
 
     const navigateTo = (url: string) => {
         toggleSideMenu()
-        route.push(url)
+        router.push(url)
     }
 
 
@@ -110,14 +110,18 @@ export const SideMenu = () => {
                     </ListItem>
 
                     {(!isLoggedIn)
-                        ? (<ListItem button>
+                        ? (<ListItem
+                            button
+                            //despues de ingresar retorna a la pagina anterior con el path de router
+                            onClick={() => navigateTo(`/auth/login?p=${router.asPath}`)}
+                        >
                             <ListItemIcon>
                                 <VpnKeyOutlined />
                             </ListItemIcon>
                             <ListItemText primary={'Ingresar'} />
                         </ListItem>)
 
-                        : (<ListItem button>
+                        : (<ListItem button onClick={logoutUser}>
                             <ListItemIcon>
                                 <LoginOutlined />
                             </ListItemIcon>

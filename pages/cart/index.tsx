@@ -1,5 +1,4 @@
 import { useContext, useEffect } from 'react';
-import NextLink from 'next/link'
 
 import { Card, Grid, CardContent, Typography, Divider, Box, Button, Link } from '@mui/material';
 
@@ -42,13 +41,14 @@ const CartPage = () => {
               <OrderSumary />
 
               <Box sx={{ mt: 3 }}>
-                <NextLink href='/checkout/addres' passHref>
-                  <Link>
-                    <Button color='secondary' className='circular-btn' fullWidth>
-                      Checkout
-                    </Button>
-                  </Link>
-                </NextLink>
+                <Button
+                  color='secondary'
+                  className='circular-btn'
+                  fullWidth
+                  href='/checkout/address'
+                >
+                  Checkout
+                </Button>
               </Box>
             </CardContent>
           </Card>

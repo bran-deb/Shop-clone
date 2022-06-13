@@ -1,4 +1,5 @@
 import { FC, useReducer, useEffect } from 'react';
+import { useRouter } from 'next/router';
 import Cookies from 'js-cookie'
 import axios from "axios";
 
@@ -19,6 +20,7 @@ const AUTH_INITIAL_STATE: AuthState = {
 
 export const AuthProvider: FC = ({ children }) => {
 
+    const router = useRouter()
     const [state, dispatch] = useReducer(authReducer, AUTH_INITIAL_STATE);
 
     useEffect(() => {
@@ -73,6 +75,12 @@ export const AuthProvider: FC = ({ children }) => {
         }
     }
 
+    const logoutUser = () => {
+        Cookies.remove('token')
+        Cookies.remove('cart')
+        router.reload()
+    }
+
     return (
         <AuthContext.Provider value={{
             ...state,
@@ -80,6 +88,7 @@ export const AuthProvider: FC = ({ children }) => {
             //Methods
             loginUser,
             registerUser,
+            logoutUser,
         }}>
             {children}
         </AuthContext.Provider>

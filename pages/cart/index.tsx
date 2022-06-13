@@ -1,13 +1,28 @@
+import { useContext, useEffect } from 'react';
 import NextLink from 'next/link'
 
 import { Card, Grid, CardContent, Typography, Divider, Box, Button, Link } from '@mui/material';
 
-import { CartList, OrderSumary } from '../../components/cart';
 import { ShopLayout } from '../../components/layouts';
+import { CartContext } from '../../context';
+import { CartList, OrderSumary } from '../../components/cart';
+import { useRouter } from 'next/router';
 
 
 
 const CartPage = () => {
+
+  const router = useRouter()
+  const { isLoaded, cart } = useContext(CartContext);
+
+  useEffect(() => {
+    if (isLoaded && cart.length === 0) {
+      router.replace('/cart/empty')
+    }
+  }, [isLoaded, cart, router])
+  //evita renderizar toda la pantalla de cart
+  if (!isLoaded || cart.length === 0) return (<></>)
+
   return (
     <ShopLayout title='Carrito - 3' pageDescription='Carrito de compras de la tienda'>
       <Typography variant="h1" component='h1'>Carrito</Typography>

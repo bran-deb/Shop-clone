@@ -9,6 +9,7 @@ import { CartContext } from './';
 
 
 export interface cartState {
+    isLoaded: boolean
     cart: ICartProduct[]
 
     numberOfItems: number
@@ -19,6 +20,7 @@ export interface cartState {
 }
 
 const CART_INITIAL_STATE: cartState = {
+    isLoaded: false,
     cart: [],
 
     numberOfItems: 0,

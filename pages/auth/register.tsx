@@ -36,7 +36,10 @@ const RegisterPage: NextPage = () => {
             setTimeout(() => { setShowError(false) }, 3000);
             return;
         }
-        router.replace('/')
+        /* Checking if there is a query parameter called p, and if there is, it is redirecting to that
+        page. If there is no query parameter, it is redirecting to the home page. */
+        const destination = router.query.p?.toString() || '/'
+        router.replace(destination)
     }
 
     return (
@@ -117,7 +120,8 @@ const RegisterPage: NextPage = () => {
                         </Grid>
 
                         <Grid item xs={12} display='flex' justifyContent='end'>
-                            <NextLink href='/auth/login' passHref>
+                            <NextLink href={router.query.p ? `/auth/login?p=${router.query.p}` : '/auth/login'}
+                                passHref>
                                 <Link underline='always'>
                                     Ya tienes una cuenta?
                                 </Link>

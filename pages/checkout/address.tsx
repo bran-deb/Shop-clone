@@ -9,6 +9,7 @@ import Cookies from 'js-cookie';
 import { ShopLayout } from "../../components/layouts";
 import { CartContext } from '../../context';
 import { countries } from '../../utilities';
+import { CookieSharp } from '@mui/icons-material';
 
 
 type FormData = {
@@ -147,7 +148,7 @@ const Addres = () => {
                                 select
                                 variant='filled'
                                 label='Pais'
-                                defaultValue={countries[10].code}
+                                defaultValue={Cookies.get('country') || countries[0].code}
                                 error={!!errors.country}
                                 {...register('country', {
                                     required: 'Seleccione un pais',

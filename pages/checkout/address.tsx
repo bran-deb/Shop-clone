@@ -20,20 +20,24 @@ type FormData = {
     phone: string;
 }
 
+const getAddressFromCookies = (): FormData => {
+    return {
+        firstName: Cookies.get('firstName') || '',
+        lastName: Cookies.get('lastName') || '',
+        address: Cookies.get('address') || '',
+        address2: Cookies.get('address2') || '',
+        zip: Cookies.get('zip') || '',
+        city: Cookies.get('city') || '',
+        country: Cookies.get('country') || '',
+        phone: Cookies.get('phone') || '',
+    }
+}
+
 const Addres = () => {
 
     const router = useRouter()
     const { register, handleSubmit, formState: { errors } } = useForm<FormData>({
-        defaultValues: {
-            firstName: '',
-            lastName: '',
-            address: '',
-            address2: '',
-            zip: '',
-            city: '',
-            country: countries[10].code,
-            phone: '',
-        }
+        defaultValues: getAddressFromCookies()
     })
 
 

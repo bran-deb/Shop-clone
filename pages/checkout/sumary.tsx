@@ -26,7 +26,7 @@ const Sumary = () => {
 
                             <Box display='flex' justifyContent='space-between' >
                                 <Typography variant='subtitle1'>Direccion de entrega</Typography>
-                                <NextLink href='/checkout/addres' passHref>
+                                <NextLink href='/checkout/address' passHref>
                                     <Link underline='always'>
                                         Editar
                                     </Link>

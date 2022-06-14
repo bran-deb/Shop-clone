@@ -4,9 +4,21 @@ import Cookie from 'js-cookie';
 import { ICartProduct } from '../../interfaces';
 import { cartReducer } from './';
 import { CartContext } from './';
+import Cookies from 'js-cookie';
 
 
 
+
+export interface ShippingAddress {
+    firstName: string;
+    lastName: string;
+    address: string;
+    address2?: string;
+    zip: string;
+    city: string;
+    country: string;
+    phone: string;
+}
 
 export interface cartState {
     isLoaded: boolean
@@ -17,6 +29,7 @@ export interface cartState {
     tax: number
     total: number
 
+    shippingAddress?: ShippingAddress
 }
 
 const CART_INITIAL_STATE: cartState = {
@@ -27,6 +40,7 @@ const CART_INITIAL_STATE: cartState = {
     subTotal: 0,
     tax: 0,
     total: 0,
+    shippingAddress: undefined
 }
 
 export const CartProvider: FC = ({ children }) => {
@@ -40,6 +54,24 @@ export const CartProvider: FC = ({ children }) => {
             dispatch({ type: '[CART] - LoadCart from cookies | storage', payload: cookieProducts })
         } catch (error) {
             dispatch({ type: '[CART] - LoadCart from cookies | storage', payload: [] })
+        }
+    }, [])
+
+    useEffect(() => {
+
+        if (Cookie.get('firstName')) {
+            const shippingAddress = {
+                firstName: Cookies.get('firstName') || '',
+                lastName: Cookies.get('lastName') || '',
+                address: Cookies.get('address') || '',
+                address2: Cookies.get('address2') || '',
+                zip: Cookies.get('zip') || '',
+                city: Cookies.get('city') || '',
+                country: Cookies.get('country') || '',
+                phone: Cookies.get('phone') || '',
+            }
+
+            dispatch({ type: '[CART] - LoadAddress from Cookies', payload: shippingAddress })
         }
     }, [])
 

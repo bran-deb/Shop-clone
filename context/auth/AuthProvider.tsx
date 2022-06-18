@@ -6,6 +6,7 @@ import axios from "axios";
 import { teslaApi } from "../../api";
 import { IUser } from '../../interfaces';
 import { AuthContext, authReducer } from ".";
+import { useSession } from 'next-auth/react';
 
 
 export interface AuthState {
@@ -22,10 +23,18 @@ export const AuthProvider: FC = ({ children }) => {
 
     const router = useRouter()
     const [state, dispatch] = useReducer(authReducer, AUTH_INITIAL_STATE);
+    const { data, status } = useSession()
 
     useEffect(() => {
-        checkToken()
-    }, [])
+        if (status === 'authenticated') {
+            console.log({ user: data?.user });
+            //TODO: dispatch({ type: '[Auth] - Login', payload: data?.user as IUser })
+        }
+    }, [data, status])
+
+    // useEffect(() => {
+    //     checkToken()
+    // }, [])
 
     const checkToken = async () => {
         //si no esta autenticado no realiza ninguna accion

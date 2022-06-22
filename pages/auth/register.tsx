@@ -1,5 +1,5 @@
 import { useState, useContext } from 'react';
-import { NextPage } from 'next';
+import { GetServerSideProps, NextPage } from 'next';
 import NextLink from 'next/link';
 
 import { Box, Button, Chip, Grid, Link, TextField, Typography } from '@mui/material';
@@ -11,6 +11,7 @@ import { useRouter } from 'next/router';
 import { AuthContext } from '../../context';
 import { validations } from '../../utilities';
 import { teslaApi } from '../../api';
+import { getSession, signIn } from 'next-auth/react';
 
 type FormData = {
     name: string;
@@ -38,8 +39,9 @@ const RegisterPage: NextPage = () => {
         }
         /* Checking if there is a query parameter called p, and if there is, it is redirecting to that
         page. If there is no query parameter, it is redirecting to the home page. */
-        const destination = router.query.p?.toString() || '/'
-        router.replace(destination)
+        // const destination = router.query.p?.toString() || '/'
+        // router.replace(destination)
+        await signIn('credentials', { email, password })
     }
 
     return (
@@ -135,3 +137,24 @@ const RegisterPage: NextPage = () => {
 }
 
 export default RegisterPage;
+
+// You should use getServerSideProps when:
+// - Only if you need to pre-render a page whose data must be fetched at request time
+export const getServerSideProps: GetServerSideProps = async ({ req, query }) => {
+
+    const session = await getSession({ req })
+    const { p = '/' } = query
+
+    if (session) {
+        return {
+            redirect: {
+                destination: p.toString(),
+                permanent: false
+            }
+        }
+    }
+
+    return {
+        props: {}
+    }
+}

@@ -37,6 +37,19 @@ export default NextAuth({
         }),
         // ...add more providers here
     ],
+    //custom pages
+    pages: {
+        signIn: '/auth/login',
+        newUser: 'auth/register'
+    },
+    jwt: {
+
+    },
+    session: {
+        maxAge: 2592000,     //30d
+        strategy: 'jwt',
+        updateAge: 86400,   //cada dia
+    },
 
     //callbacks
     callbacks: {
@@ -47,11 +60,10 @@ export default NextAuth({
                 token.accessToken = account.access_token
 
                 switch (account.type) {
-
                     case "oauth":
-                        //TODO: crear usuario o verificar si existe en mi db
+                        // crear usuario o verificar si existe en mi db
+                        token.user = await dbUsers.oAuthToDBUser(user?.email || '', user?.name || '')
                         break;
-
                     case "credentials":
                         token.user = user
                         break;

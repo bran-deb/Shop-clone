@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { GetServerSideProps } from 'next'
 import { useRouter } from 'next/router';
 
@@ -40,9 +40,22 @@ const Addres = () => {
 
     const router = useRouter()
     const { updateAddress } = useContext(CartContext)
-    const { register, handleSubmit, formState: { errors } } = useForm<FormData>({
-        defaultValues: getAddressFromCookies()
+    const { register, handleSubmit, formState: { errors }, reset } = useForm<FormData>({
+        defaultValues: {
+            firstName: '',
+            lastName: '',
+            address: '',
+            address2: '',
+            zip: '',
+            city: '',
+            country: countries[0].code,
+            phone: '',
+        }
     })
+
+    useEffect(() => {
+        reset(getAddressFromCookies())
+    }, [reset])
 
 
     const onSubmitAddress = (data: FormData) => {
@@ -142,27 +155,28 @@ const Addres = () => {
                     </Grid>
 
                     <Grid item xs={12} sm={6}>
-                        <FormControl fullWidth
-                        >
-                            <TextField
-                                select
-                                variant='filled'
-                                label='Pais'
-                                defaultValue={Cookies.get('country') || countries[0].code}
-                                error={!!errors.country}
-                                {...register('country', {
-                                    required: 'Seleccione un pais',
-                                })}
-                            >
-                                {countries.map(country => (
-                                    <MenuItem
-                                        key={country.code}
-                                        value={country.code}>
-                                        {country.name}
-                                    </MenuItem>
-                                ))}
-                            </TextField>
-                        </FormControl>
+                        {/* <FormControl fullWidth> */}
+                        <TextField
+                            // select
+                            variant='filled'
+                            label='Pais'
+                            fullWidth
+                            // defaultValue={Cookies.get('country') || countries[0].code}
+                            {...register('country', {
+                                required: 'Seleccione un pais',
+                            })}
+                            error={!!errors.country}
+                            helperText={errors.country?.message}
+                        />
+                        {/* {countries.map(country => (
+                                <MenuItem
+                                    key={country.code}
+                                    value={country.code}>
+                                    {country.name}
+                                </MenuItem>
+                            ))}
+                        </TextField> */}
+                        {/* </FormControl> */}
                     </Grid>
 
                     <Grid item xs={12} sm={6}>

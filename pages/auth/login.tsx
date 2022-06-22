@@ -1,18 +1,18 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 
 import { NextPage, GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
 import NextLink from 'next/link'
 
-import { Box, Button, Chip, Grid, Link, TextField, Typography } from "@mui/material";
+import { Box, Button, Chip, Divider, Grid, Link, TextField, Typography } from "@mui/material";
 import { ErrorOutline } from '@mui/icons-material';
 import { useForm } from 'react-hook-form';
 
 import { AuthLayout } from "../../components/layouts";
-import { AuthContext } from '../../context';
+// import { AuthContext } from '../../context';
 import { validations } from '../../utilities';
-import { teslaApi } from '../../api';
-import { getSession, signIn } from 'next-auth/react';
+// import { teslaApi } from '../../api';
+import { getSession, signIn, getProviders } from 'next-auth/react';
 
 
 type FormData = {
@@ -23,9 +23,20 @@ type FormData = {
 const LoginPage: NextPage = () => {
 
     const router = useRouter()
-    const { loginUser, } = useContext(AuthContext);
+    // const { loginUser, } = useContext(AuthContext);
     const { register, handleSubmit, formState: { errors } } = useForm<FormData>()
     const [showError, setShowError] = useState(false);
+
+    const [providers, setProviders] = useState<any>({});
+
+    useEffect(() => {
+        getProviders().then(prov => {
+            setProviders(prov)
+            console.log(prov);
+
+        })
+    }, [])
+
 
     //  * "If the user is not logged in, show an error message for 3 seconds, otherwise redirect the user
     //  * to the home page."
@@ -116,6 +127,29 @@ const LoginPage: NextPage = () => {
                                     Aun no tiene cuenta?
                                 </Link>
                             </NextLink>
+                        </Grid>
+
+                        <Grid item xs={12} display='flex' flexDirection='column' justifyContent='end'>
+                            <Divider sx={{ width: '100', mb: 2 }} />
+                            {
+                                Object.values(providers).map((provider: any) => {
+
+                                    if (provider.id === 'credentials') return (<div key='credentials'></div>)
+
+                                    return (
+                                        <Button
+                                            key={provider.id}
+                                            variant="outlined"
+                                            fullWidth
+                                            color='primary'
+                                            sx={{ mb: 1 }}
+                                            onClick={() => signIn(provider.id)}
+                                        >
+                                            {provider.name}
+                                        </Button>
+                                    )
+                                })
+                            }
                         </Grid>
                     </Grid>
                 </Box>

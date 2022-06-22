@@ -37,6 +37,11 @@ export default NextAuth({
         }),
         // ...add more providers here
     ],
+    //custom pages
+    pages: {
+        signIn: '/auth/login',
+        newUser: 'auth/register'
+    },
 
     //callbacks
     callbacks: {

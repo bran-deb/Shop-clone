@@ -1,5 +1,6 @@
 import { useState, useContext } from 'react';
-import { NextPage } from 'next';
+
+import { NextPage, GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
 import NextLink from 'next/link'
 
@@ -11,6 +12,7 @@ import { AuthLayout } from "../../components/layouts";
 import { AuthContext } from '../../context';
 import { validations } from '../../utilities';
 import { teslaApi } from '../../api';
+import { getSession, signIn } from 'next-auth/react';
 
 
 type FormData = {
@@ -29,17 +31,18 @@ const LoginPage: NextPage = () => {
     //  * to the home page."
     const onLoginUser = async ({ email, password }: FormData) => {
         setShowError(false)
-        const isValidLogin = await loginUser(email, password)
+        // const isValidLogin = await loginUser(email, password)
 
-        if (!isValidLogin) {
-            setShowError(true)
-            setTimeout(() => { setShowError(false) }, 3000);
-            return;
-        }
-        /* Checking if there is a query parameter called p, and if there is, it is redirecting to that
-        page. If there is no query parameter, it is redirecting to the home page. */
-        const destination = router.query.p?.toString() || '/'
-        router.replace(destination)
+        // if (!isValidLogin) {
+        //     setShowError(true)
+        //     setTimeout(() => { setShowError(false) }, 3000);
+        //     return;
+        // }
+        // /* Checking if there is a query parameter called p, and if there is, it is redirecting to that
+        // page. If there is no query parameter, it is redirecting to the home page. */
+        // const destination = router.query.p?.toString() || '/'
+        // router.replace(destination)
+        await signIn('credentials', { email, password })
     }
 
     return (
@@ -122,3 +125,26 @@ const LoginPage: NextPage = () => {
 }
 
 export default LoginPage;
+
+
+
+// You should use getServerSideProps when:
+// - Only if you need to pre-render a page whose data must be fetched at request time
+export const getServerSideProps: GetServerSideProps = async ({ req, query }) => {
+
+    const session = await getSession({ req })
+    const { p = '/' } = query
+
+    if (session) {
+        return {
+            redirect: {
+                destination: p.toString(),
+                permanent: false
+            }
+        }
+    }
+
+    return {
+        props: {}
+    }
+}

@@ -6,7 +6,7 @@ import axios from "axios";
 import { teslaApi } from "../../api";
 import { IUser } from '../../interfaces';
 import { AuthContext, authReducer } from ".";
-import { useSession } from 'next-auth/react';
+import { useSession, signOut } from 'next-auth/react';
 
 
 export interface AuthState {
@@ -28,7 +28,7 @@ export const AuthProvider: FC = ({ children }) => {
     useEffect(() => {
         if (status === 'authenticated') {
             console.log({ user: data?.user });
-            //TODO: dispatch({ type: '[Auth] - Login', payload: data?.user as IUser })
+            dispatch({ type: '[Auth] - Login', payload: data?.user as IUser })
         }
     }, [data, status])
 
@@ -85,9 +85,7 @@ export const AuthProvider: FC = ({ children }) => {
     }
 
     const logoutUser = () => {
-        Cookies.remove('token')
         Cookies.remove('cart')
-
         Cookies.remove('firstName');
         Cookies.remove('lastName');
         Cookies.remove('address');
@@ -97,7 +95,9 @@ export const AuthProvider: FC = ({ children }) => {
         Cookies.remove('country');
         Cookies.remove('phone');
 
-        router.reload()
+        signOut()
+        // Cookies.remove('token')
+        // router.reload()
     }
 
     return (

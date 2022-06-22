@@ -47,11 +47,10 @@ export default NextAuth({
                 token.accessToken = account.access_token
 
                 switch (account.type) {
-
                     case "oauth":
-                        //TODO: crear usuario o verificar si existe en mi db
+                        // crear usuario o verificar si existe en mi db
+                        token.user = await dbUsers.oAuthToDBUser(user?.email || '', user?.name || '')
                         break;
-
                     case "credentials":
                         token.user = user
                         break;

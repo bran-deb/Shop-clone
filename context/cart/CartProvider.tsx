@@ -1,7 +1,7 @@
 import { FC, useEffect, useReducer } from 'react';
 import Cookie from 'js-cookie';
 
-import { ICartProduct } from '../../interfaces';
+import { ICartProduct, ShippingAddress } from '../../interfaces';
 import { cartReducer } from './';
 import { CartContext } from './';
 import Cookies from 'js-cookie';
@@ -9,16 +9,6 @@ import Cookies from 'js-cookie';
 
 
 
-export interface ShippingAddress {
-    firstName: string;
-    lastName: string;
-    address: string;
-    address2?: string;
-    zip: string;
-    city: string;
-    country: string;
-    phone: string;
-}
 
 export interface cartState {
     isLoaded: boolean

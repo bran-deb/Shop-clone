@@ -5,6 +5,7 @@ import { ICartProduct, ShippingAddress } from '../../interfaces';
 import { cartReducer } from './';
 import { CartContext } from './';
 import Cookies from 'js-cookie';
+import { teslaApi } from '../../api';
 
 
 
@@ -125,6 +126,17 @@ export const CartProvider: FC = ({ children }) => {
         dispatch({ type: '[CART] - Update Address', payload: address })
     }
 
+    const createOrder = async () => {
+        try {
+            const { data } = await teslaApi.post('/orders')
+            console.log({ data });
+
+        } catch (error) {
+            console.log(error);
+
+        }
+    }
+
     return (
         <CartContext.Provider value={{
             ...state,
@@ -134,6 +146,9 @@ export const CartProvider: FC = ({ children }) => {
             removeCartProduct,
             updateCartQuantity,
             updateAddress,
+
+            //orders
+            createOrder,
         }}>
             {children}
         </CartContext.Provider>

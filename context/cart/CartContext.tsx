@@ -1,6 +1,5 @@
 import { createContext } from 'react';
-import { ShippingAddress } from './';
-import { ICartProduct } from '../../interfaces';
+import { ICartProduct, ShippingAddress } from '../../interfaces';
 
 
 interface ContextProps {

@@ -11,6 +11,9 @@ export interface IOrder {
     subTotal: number;
     tax: number;
     total: number;
+
+    isPaid: boolean;
+    paidAt: string;
 }
 
 export interface IOrderItem {

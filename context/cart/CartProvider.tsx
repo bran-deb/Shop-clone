@@ -1,10 +1,11 @@
 import { FC, useEffect, useReducer } from 'react';
 import Cookie from 'js-cookie';
 
-import { ICartProduct, ShippingAddress } from '../../interfaces';
+import { ICartProduct, IOrder, ShippingAddress } from '../../interfaces';
 import { cartReducer } from './';
 import { CartContext } from './';
 import Cookies from 'js-cookie';
+import { teslaApi } from '../../api';
 
 
 
@@ -125,6 +126,35 @@ export const CartProvider: FC = ({ children }) => {
         dispatch({ type: '[CART] - Update Address', payload: address })
     }
 
+    const createOrder = async () => {
+
+        if (!state.shippingAddress) {
+            throw new Error('No hay direccion de entrega')
+        }
+
+        const body: IOrder = {
+            orderItems: state.cart.map(p => ({
+                ...p,
+                size: p.size!
+            })),
+            shippingAddress: state.shippingAddress,
+            numberOfItems: state.numberOfItems,
+            subTotal: state.subTotal,
+            tax: state.tax,
+            total: state.total,
+            isPaid: false,
+        }
+
+        try {
+            const { data } = await teslaApi.post('/orders', body)
+            console.log({ data });
+
+        } catch (error) {
+            console.log(error);
+
+        }
+    }
+
     return (
         <CartContext.Provider value={{
             ...state,
@@ -134,6 +164,9 @@ export const CartProvider: FC = ({ children }) => {
             removeCartProduct,
             updateCartQuantity,
             updateAddress,
+
+            //orders
+            createOrder,
         }}>
             {children}
         </CartContext.Provider>

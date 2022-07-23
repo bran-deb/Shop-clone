@@ -15,13 +15,17 @@ import { useRouter } from 'next/router';
 const Sumary = () => {
 
     const router = useRouter()
-    const { shippingAddress, numberOfItems } = useContext(CartContext)
+    const { shippingAddress, numberOfItems, createOrder } = useContext(CartContext)
 
     useEffect(() => {
         if (!Cookies.get('firstName')) {
             router.push('/checkout/address')
         }
     }, [router])
+
+    const onCreateOrder = () => {
+        createOrder()
+    }
 
     if (!shippingAddress) return <></>;
 
@@ -72,13 +76,18 @@ const Sumary = () => {
                             <OrderSumary />
 
                             <Box sx={{ mt: 3 }}>
-                                <NextLink href='/#' passHref>
-                                    <Link>
-                                        <Button color='secondary' className='circular-btn' fullWidth>
-                                            Confirmar Orden
-                                        </Button>
-                                    </Link>
-                                </NextLink>
+                                {/* <NextLink href='/#' passHref> */}
+                                {/* <Link> */}
+                                <Button
+                                    color='secondary'
+                                    className='circular-btn'
+                                    fullWidth
+                                    onClick={onCreateOrder}
+                                >
+                                    Confirmar Orden
+                                </Button>
+                                {/* </Link> */}
+                                {/* </NextLink> */}
                             </Box>
                         </CardContent>
                     </Card>

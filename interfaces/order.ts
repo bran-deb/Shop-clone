@@ -1,7 +1,7 @@
-import { IUser } from "./";
+import { IUser, ISize } from "./";
 
 export interface IOrder {
-    _id: string;
+    _id?: string;
     user?: IUser | string;
     orderItems: IOrderItem[];
     shippingAddress: ShippingAddress;
@@ -13,16 +13,17 @@ export interface IOrder {
     total: number;
 
     isPaid: boolean;
-    paidAt: string;
+    paidAt?: string;
 }
 
 export interface IOrderItem {
     _id: string;
     slug: string;
-    size: string;
+    size: ISize;
     title: string;
     image: string;
     price: number;
+    gender: string;
     quantity: number;
 }
 

@@ -24,7 +24,7 @@ const ProductPage: NextPage<Props> = ({ product }) => {
 
     const INITIAL_TEMPCART_STATE: ICartProduct = {
         _id: product._id,
-        images: product.images[0],
+        image: product.images[0],
         price: product.price,
         size: undefined,
         slug: product.slug,

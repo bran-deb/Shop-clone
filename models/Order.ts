@@ -1,6 +1,5 @@
 import mongoose, { Schema, model, Model } from "mongoose";
 import { IOrder } from "../interfaces";
-import { ShippingAddress } from '../interfaces/order';
 
 
 
@@ -16,7 +15,7 @@ const orderSchema = new Schema({
         price: { type: Number, required: true },
         quantity: { type: Number, required: true },
     }],
-    ShippingAddress: {
+    shippingAddress: {
         firstName: { type: String, required: true },
         lastName: { type: String, required: true },
         address: { type: String, required: true },
@@ -32,7 +31,7 @@ const orderSchema = new Schema({
     total: { type: Number, required: true },
 
     isPaid: { type: Boolean, required: true, default: false },
-    paidAt: { type: String, required: true },
+    paidAt: { type: String },
 }, {
     timestamps: true
 })

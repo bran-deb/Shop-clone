@@ -2,9 +2,7 @@ import { FC, useEffect, useReducer } from 'react';
 import Cookie from 'js-cookie';
 
 import { ICartProduct, IOrder, ShippingAddress } from '../../interfaces';
-import { cartReducer } from './';
-import { CartContext } from './';
-import Cookies from 'js-cookie';
+import { cartReducer, CartContext } from './';
 import { teslaApi } from '../../api';
 
 
@@ -52,14 +50,14 @@ export const CartProvider: FC = ({ children }) => {
 
         if (Cookie.get('firstName')) {
             const shippingAddress = {
-                firstName: Cookies.get('firstName') || '',
-                lastName: Cookies.get('lastName') || '',
-                address: Cookies.get('address') || '',
-                address2: Cookies.get('address2') || '',
-                zip: Cookies.get('zip') || '',
-                city: Cookies.get('city') || '',
-                country: Cookies.get('country') || '',
-                phone: Cookies.get('phone') || '',
+                firstName: Cookie.get('firstName') || '',
+                lastName: Cookie.get('lastName') || '',
+                address: Cookie.get('address') || '',
+                address2: Cookie.get('address2') || '',
+                zip: Cookie.get('zip') || '',
+                city: Cookie.get('city') || '',
+                country: Cookie.get('country') || '',
+                phone: Cookie.get('phone') || '',
             }
 
             dispatch({ type: '[CART] - LoadAddress from Cookies', payload: shippingAddress })
@@ -114,14 +112,14 @@ export const CartProvider: FC = ({ children }) => {
     }
 
     const updateAddress = (address: ShippingAddress) => {
-        Cookies.set('firstName', address.firstName);
-        Cookies.set('lastName', address.lastName);
-        Cookies.set('address', address.address);
-        Cookies.set('address2', address.address2 || '');
-        Cookies.set('zip', address.zip);
-        Cookies.set('city', address.city);
-        Cookies.set('country', address.country);
-        Cookies.set('phone', address.phone);
+        Cookie.set('firstName', address.firstName);
+        Cookie.set('lastName', address.lastName);
+        Cookie.set('address', address.address);
+        Cookie.set('address2', address.address2 || '');
+        Cookie.set('zip', address.zip);
+        Cookie.set('city', address.city);
+        Cookie.set('country', address.country);
+        Cookie.set('phone', address.phone);
 
         dispatch({ type: '[CART] - Update Address', payload: address })
     }
@@ -142,7 +140,7 @@ export const CartProvider: FC = ({ children }) => {
             subTotal: state.subTotal,
             tax: state.tax,
             total: state.total,
-            isPaid: false,
+            isPaid: false
         }
 
         try {

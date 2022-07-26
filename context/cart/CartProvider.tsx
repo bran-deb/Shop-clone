@@ -1,5 +1,6 @@
 import { FC, useEffect, useReducer } from 'react';
 import Cookie from 'js-cookie';
+import axios from 'axios';
 
 import { ICartProduct, IOrder, ShippingAddress } from '../../interfaces';
 import { cartReducer, CartContext } from './';
@@ -124,7 +125,7 @@ export const CartProvider: FC = ({ children }) => {
         dispatch({ type: '[CART] - Update Address', payload: address })
     }
 
-    const createOrder = async () => {
+    const createOrder = async (): Promise<{ hasError: boolean; message: string; }> => {
 
         if (!state.shippingAddress) {
             throw new Error('No hay direccion de entrega')
@@ -144,12 +145,26 @@ export const CartProvider: FC = ({ children }) => {
         }
 
         try {
-            const { data } = await teslaApi.post('/orders', body)
-            console.log({ data });
+            const { data } = await teslaApi.post<IOrder>('/orders', body)
 
-        } catch (error) {
-            console.log(error);
+            //TODO: dispatch
+            return {
+                hasError: false,
+                message: data._id!
+            }
 
+        } catch (error: any) {
+            if (axios.isAxiosError(error)) {
+                // const axiosError: string = error.response?.data.message
+                return {
+                    hasError: true,
+                    message: error.message
+                }
+            }
+            return {
+                hasError: true,
+                message: 'Error no controlado con el administrador'
+            }
         }
     }
 

@@ -1,12 +1,12 @@
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import NextLink from 'next/link'
 
-import { Card, Grid, CardContent, Typography, Divider, Box, Button, Link } from '@mui/material';
+import { Card, Grid, CardContent, Typography, Divider, Box, Button, Link, Chip } from '@mui/material';
 
 import { ShopLayout } from '../../components/layouts';
 import { CartContext } from '../../context';
 import { CartList, OrderSumary } from '../../components/cart';
-import { countries } from '../../utilities';
+// import { countries } from '../../utilities';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/router';
 
@@ -16,6 +16,10 @@ const Sumary = () => {
 
     const router = useRouter()
     const { shippingAddress, numberOfItems, createOrder } = useContext(CartContext)
+    const [isPosting, setIsPosting] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
+
+
 
     useEffect(() => {
         if (!Cookies.get('firstName')) {
@@ -23,8 +27,17 @@ const Sumary = () => {
         }
     }, [router])
 
-    const onCreateOrder = () => {
-        createOrder()
+    const onCreateOrder = async () => {
+        setIsPosting(true)
+        const { hasError, message } = await createOrder()
+
+        if (hasError) {
+            setIsPosting(false)
+            setErrorMessage(message)
+            return
+        }
+        router.replace(`/orders/${message}`)
+
     }
 
     if (!shippingAddress) return <></>;
@@ -75,7 +88,10 @@ const Sumary = () => {
 
                             <OrderSumary />
 
-                            <Box sx={{ mt: 3 }}>
+                            <Box
+                                sx={{ mt: 3 }}
+                                display="flex"
+                                flexDirection="column">
                                 {/* <NextLink href='/#' passHref> */}
                                 {/* <Link> */}
                                 <Button
@@ -83,9 +99,16 @@ const Sumary = () => {
                                     className='circular-btn'
                                     fullWidth
                                     onClick={onCreateOrder}
+                                    disabled={isPosting}
                                 >
                                     Confirmar Orden
                                 </Button>
+                                <Chip
+                                    color='error'
+                                    label={errorMessage}
+                                    sx={{ display: errorMessage ? 'flex' : 'none', mt: 2 }}
+                                />
+
                                 {/* </Link> */}
                                 {/* </NextLink> */}
                             </Box>

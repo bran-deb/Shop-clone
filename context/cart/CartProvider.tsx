@@ -147,13 +147,14 @@ export const CartProvider: FC = ({ children }) => {
         try {
             const { data } = await teslaApi.post<IOrder>('/orders', body)
 
-            //TODO: dispatch
+            dispatch({ type: '[CART] - Order complete' });
+
             return {
                 hasError: false,
                 message: data._id!
             }
 
-        } catch (error: any) {
+        } catch (error) {
             if (axios.isAxiosError(error)) {
                 // const axiosError: string = error.response?.data.message
                 return {

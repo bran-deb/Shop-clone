@@ -1,7 +1,6 @@
 import { FC, useMemo, useState } from "react";
-import NextLink from 'next/link'
-
 import { Box, Card, CardActionArea, CardMedia, Grid, Link, Typography, Chip } from "@mui/material";
+import NextLink from 'next/link'
 
 import { IProduct } from "../../interfaces";
 
@@ -51,7 +50,6 @@ export const ProductCard: FC<Props> = ({ product }) => {
                                 image={productImage}
                                 alt={product.title}
                                 onLoad={() => setIsImageLoaded(true)}
-                            // onLoad={() => console.log('termino carga')}      //loader
                             />
                             {/* NOTE: otra forma  */}
                         </CardActionArea>

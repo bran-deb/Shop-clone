@@ -18,6 +18,7 @@ type CartActionType =
             total: number;
         }
     }
+    | { type: '[CART] - Order complete' }
 
 export const cartReducer = (state: cartState, action: CartActionType) => {
 
@@ -65,6 +66,17 @@ export const cartReducer = (state: cartState, action: CartActionType) => {
             return {
                 ...state,
                 shippingAddress: action.payload
+            }
+
+
+        case '[CART] - Order complete':
+            return {
+                ...state,
+                cart: [],
+                numberOfItems: 0,
+                subTotal: 0,
+                tax: 0,
+                total: 0
             }
 
         default:

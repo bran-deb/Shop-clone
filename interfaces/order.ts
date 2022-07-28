@@ -18,11 +18,11 @@ export interface IOrder {
 
 export interface IOrderItem {
     _id: string;
-    slug: string;
-    size: ISize;
-    title: string;
     image: string;
     price: number;
+    size: ISize;
+    slug: string;
+    title: string;
     gender: string;
     quantity: number;
 }

@@ -1,14 +1,13 @@
 import { useContext, useEffect, useState } from 'react';
-import NextLink from 'next/link'
-
+import { useRouter } from 'next/router';
 import { Card, Grid, CardContent, Typography, Divider, Box, Button, Link, Chip } from '@mui/material';
+import NextLink from 'next/link'
+import Cookies from 'js-cookie';
 
+import { CartList, OrderSumary } from '../../components/cart';
 import { ShopLayout } from '../../components/layouts';
 import { CartContext } from '../../context';
-import { CartList, OrderSumary } from '../../components/cart';
 // import { countries } from '../../utilities';
-import Cookies from 'js-cookie';
-import { useRouter } from 'next/router';
 
 
 
@@ -42,7 +41,7 @@ const Sumary = () => {
 
     if (!shippingAddress) return <></>;
 
-    const { firstName, address, city, country, lastName, phone, zip, address2 } = shippingAddress
+    const { firstName, address, city, country, lastName, phone, zip, address2 = '' } = shippingAddress
 
     return (
         <ShopLayout title='Resumen de la orden' pageDescription='Resumen de la orden'>
@@ -88,12 +87,7 @@ const Sumary = () => {
 
                             <OrderSumary />
 
-                            <Box
-                                sx={{ mt: 3 }}
-                                display="flex"
-                                flexDirection="column">
-                                {/* <NextLink href='/#' passHref> */}
-                                {/* <Link> */}
+                            <Box sx={{ mt: 3 }} display="flex" flexDirection="column">
                                 <Button
                                     color='secondary'
                                     className='circular-btn'
@@ -108,9 +102,6 @@ const Sumary = () => {
                                     label={errorMessage}
                                     sx={{ display: errorMessage ? 'flex' : 'none', mt: 2 }}
                                 />
-
-                                {/* </Link> */}
-                                {/* </NextLink> */}
                             </Box>
                         </CardContent>
                     </Card>

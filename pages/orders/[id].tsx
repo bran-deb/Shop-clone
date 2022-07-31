@@ -1,3 +1,4 @@
+import { GetServerSideProps, NextPage } from 'next'
 import NextLink from 'next/link'
 
 import { Card, Grid, CardContent, Typography, Divider, Box, Link, Chip } from '@mui/material';
@@ -5,10 +6,20 @@ import { Card, Grid, CardContent, Typography, Divider, Box, Link, Chip } from '@
 import { CartList, OrderSumary } from '../../components/cart';
 import { ShopLayout } from '../../components/layouts';
 import { CreditCardOffOutlined, CreditScoreOutlined } from '@mui/icons-material';
+import { getSession } from 'next-auth/react';
+import { redirect } from 'next/dist/server/api-utils';
+import { dbOrders } from '../../database';
+import { IOrder } from '../../interfaces';
 
 
+interface Props {
+    order: IOrder
+}
 
-const OrderPage = () => {
+const OrderPage: NextPage<Props> = ({ order }) => {
+
+    console.log({ order });
+
 
     const paid: boolean = true
 
@@ -92,6 +103,51 @@ const OrderPage = () => {
             </Grid>
         </ShopLayout>
     )
+}
+
+// You should use getServerSideProps when:
+// - Only if you need to pre-render a page whose data must be fetched at request time
+
+export const getServerSideProps: GetServerSideProps = async ({ req, query }) => {
+
+    const { id = '' } = query
+    const session: any = await getSession({ req })
+
+    if (!session) {
+        return {
+            redirect: {
+                destination: `/auth/login?p=/orders/${id}`,
+                permanent: false,
+            }
+        }
+    }
+
+    /* Getting the order from the database. */
+    const order = await dbOrders.getOrderById(id.toString())
+
+    if (!order) {
+        return {
+            redirect: {
+                destination: `/orders/history`,
+                permanent: false,
+            }
+        }
+    }
+
+    if (order.user !== session.user._id) {
+        return {
+            redirect: {
+                destination: `/orders/history`,
+                permanent: false,
+            }
+        }
+    }
+
+    return {
+        props: {
+            order
+        }
+    }
 }
 
 export default OrderPage

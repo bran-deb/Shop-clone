@@ -2,9 +2,9 @@ import { FC, useEffect, useReducer } from 'react';
 import Cookie from 'js-cookie';
 import axios from 'axios';
 
-import { ICartProduct, IOrder, ShippingAddress } from '../../interfaces';
+import { ICartProduct, IOrder, ShippingAddress } from '@/interfaces';
 import { cartReducer, CartContext } from './';
-import { teslaApi } from '../../api';
+import { teslaApi } from '@/api';
 
 
 

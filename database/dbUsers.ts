@@ -1,6 +1,6 @@
-import { db } from "."
-import { User } from "../models"
 import bcrypt from 'bcryptjs';
+import { User } from "@/models"
+import { db } from "."
 
 
 

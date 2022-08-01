@@ -1,12 +1,12 @@
 import { FC, useReducer, useEffect } from 'react';
+import { useSession, signOut } from 'next-auth/react';
 import { useRouter } from 'next/router';
-import Cookies from 'js-cookie'
+import Cookies from 'js-cookie';
 import axios from "axios";
 
-import { teslaApi } from "../../api";
-import { IUser } from '../../interfaces';
 import { AuthContext, authReducer } from ".";
-import { useSession, signOut } from 'next-auth/react';
+import { teslaApi } from "@/api";
+import { IUser } from '@/interfaces';
 
 
 export interface AuthState {

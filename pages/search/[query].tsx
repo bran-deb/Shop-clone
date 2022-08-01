@@ -1,14 +1,12 @@
 import type { NextPage, GetServerSideProps } from 'next'
-
 import { Typography } from '@mui/material'
-
 // import { initialData } from '../database/products'
-import { ShopLayout } from '../../components/layouts'
-import { ProductList } from '../../components/products'
-import { FullScreenLoading } from '../../components/ui'
-import { useProducts } from '../../hooks'
-import { dbProducts } from '../../database'
-import { IProduct } from '../../interfaces'
+import { ShopLayout } from '@/components/layouts'
+import { ProductList } from '@/components/products'
+import { FullScreenLoading } from '@/components/ui'
+import { useProducts } from '@/hooks'
+import { dbProducts } from '@/database'
+import { IProduct } from '@/interfaces'
 import { Box } from '@mui/system'
 // import { useRouter } from 'next/router';
 

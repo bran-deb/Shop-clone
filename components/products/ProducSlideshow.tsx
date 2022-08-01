@@ -1,9 +1,7 @@
 import { FC } from 'react';
-
+import { Slide } from 'react-slideshow-image';
 //styles de slideshow-image
 import 'react-slideshow-image/dist/styles.css'
-import { Slide } from 'react-slideshow-image';
-
 import styles from './ProductSlideshow.module.css'
 
 

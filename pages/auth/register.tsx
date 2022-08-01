@@ -1,17 +1,15 @@
 import { useState, useContext } from 'react';
 import { GetServerSideProps, NextPage } from 'next';
+import { getSession, signIn } from 'next-auth/react';
+import { useRouter } from 'next/router';
 import NextLink from 'next/link';
-
 import { Box, Button, Chip, Grid, Link, TextField, Typography } from '@mui/material';
 import { ErrorOutline } from '@mui/icons-material';
 import { useForm } from 'react-hook-form';
 
-import { AuthLayout } from '../../components/layouts';
-import { useRouter } from 'next/router';
-import { AuthContext } from '../../context';
-import { validations } from '../../utilities';
-import { teslaApi } from '../../api';
-import { getSession, signIn } from 'next-auth/react';
+import { AuthLayout } from '@/components/layouts';
+import { AuthContext } from '@/context';
+import { validations } from '@/utilities';
 
 type FormData = {
     name: string;

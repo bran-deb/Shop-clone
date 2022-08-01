@@ -1,15 +1,13 @@
 import { GetServerSideProps, NextPage } from 'next'
-import NextLink from 'next/link'
-
-import { Card, Grid, CardContent, Typography, Divider, Box, Link, Chip } from '@mui/material';
-
-import { CartList, OrderSumary } from '../../components/cart';
-import { ShopLayout } from '../../components/layouts';
-import { CreditCardOffOutlined, CreditScoreOutlined } from '@mui/icons-material';
 import { getSession } from 'next-auth/react';
-import { redirect } from 'next/dist/server/api-utils';
-import { dbOrders } from '../../database';
-import { IOrder } from '../../interfaces';
+import NextLink from 'next/link'
+import { Card, Grid, CardContent, Typography, Divider, Box, Link, Chip } from '@mui/material';
+import { CreditCardOffOutlined, CreditScoreOutlined } from '@mui/icons-material';
+
+import { CartList, OrderSumary } from '@/components/cart';
+import { ShopLayout } from '@/components/layouts';
+import { dbOrders } from '@/database';
+import { IOrder } from '@/interfaces';
 
 
 interface Props {

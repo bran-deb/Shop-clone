@@ -2,9 +2,9 @@ import { FC, useContext } from 'react';
 import { Box, Button, CardActionArea, CardMedia, Grid, Link, Typography } from "@mui/material"
 import NextLink from 'next/link'
 
-import { ItemCounter } from "../ui"
-import { CartContext } from '../../context';
-import { ICartProduct } from '../../interfaces';
+import { CartContext } from '@/context';
+import { ICartProduct } from '@/interfaces';
+import { ItemCounter } from '../ui';
 
 // const productsInCart = [
 //     initialData.products[0],

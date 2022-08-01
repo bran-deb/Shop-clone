@@ -4,9 +4,9 @@ import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import Cookies from 'js-cookie';
 
-import { CartContext } from '../../context';
-import { ShopLayout } from "../../components/layouts";
-import { countries } from '../../utilities';
+import { CartContext } from '@/context';
+import { ShopLayout } from "@/components/layouts";
+import { countries } from '@/utilities';
 
 
 type FormData = {
@@ -66,7 +66,6 @@ const Addres = () => {
             <Typography variant='h1' component='h1'>Direccion</Typography>
 
             <form onSubmit={handleSubmit(onSubmitAddress)}>
-                <Typography variant='h1' component='h1'>Direccion</Typography>
                 <Grid container spacing={2} sx={{ mt: 2 }}>
                     <Grid item xs={12} sm={6}>
                         <TextField

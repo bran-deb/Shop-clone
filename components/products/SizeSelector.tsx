@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { Box, Button } from '@mui/material';
-import { ISize } from '../../interfaces';
+import { ISize } from '@/interfaces';
 
 
 interface Props {

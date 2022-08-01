@@ -1,8 +1,8 @@
 import { NextApiRequest, NextApiResponse, } from "next";
 
-import { db } from "../../../database";
-import { User } from "../../../models";
-import { jwt } from "../../../utilities";
+import { db } from "@/database";
+import { jwt } from "@/utilities";
+import { User } from "@/models";
 
 
 type Data =

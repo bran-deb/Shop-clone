@@ -1,5 +1,5 @@
 import mongoose, { Schema, model, Model } from "mongoose";
-import { IOrder } from "../interfaces";
+import { IOrder } from "@/interfaces";
 
 
 

@@ -1,9 +1,9 @@
 import { Typography } from "@mui/material"
 
-import { useProducts } from "../../hooks"
-import { ProductList } from "../../components/products"
-import { ShopLayout } from "../../components/layouts"
-import { FullScreenLoading } from "../../components/ui"
+import { useProducts } from "@/hooks"
+import { ProductList } from "@/components/products"
+import { ShopLayout } from "@/components/layouts"
+import { FullScreenLoading } from "@/components/ui"
 
 const Women = () => {
 

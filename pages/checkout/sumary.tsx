@@ -3,11 +3,10 @@ import { useRouter } from 'next/router';
 import { Card, Grid, CardContent, Typography, Divider, Box, Button, Link, Chip } from '@mui/material';
 import NextLink from 'next/link'
 import Cookies from 'js-cookie';
-
-import { CartList, OrderSumary } from '../../components/cart';
-import { ShopLayout } from '../../components/layouts';
-import { CartContext } from '../../context';
-// import { countries } from '../../utilities';
+// import { countries } from '@/utilities';
+import { CartList, OrderSumary } from '@/components/cart';
+import { ShopLayout } from '@/components/layouts';
+import { CartContext } from '@/context';
 
 
 

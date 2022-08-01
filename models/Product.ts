@@ -1,5 +1,5 @@
 import mongoose, { Schema, model, Model } from 'mongoose'
-import { IProduct } from '../interfaces'
+import { IProduct } from '@/interfaces'
 
 
 /* Creating a schema for the product model. */

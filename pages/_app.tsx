@@ -3,8 +3,8 @@ import type { AppProps } from 'next/app';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import { SessionProvider } from "next-auth/react"
 
-import { UIProvider, CartProvider, AuthProvider } from '../context';
-import { lightTheme } from '../themes';
+import { UIProvider, CartProvider, AuthProvider } from '@/context';
+import { lightTheme } from '@/themes';
 import { SWRConfig } from 'swr';
 
 function MyApp({ Component, pageProps }: AppProps) {

@@ -3,10 +3,10 @@ import type { NextPage } from 'next'
 import { Typography } from '@mui/material'
 
 // import { initialData } from '../database/products'
-import { ShopLayout } from '../components/layouts'
-import { ProductList } from '../components/products'
-import { FullScreenLoading } from '../components/ui'
-import { useProducts } from '../hooks'
+import { useProducts } from '@/hooks'
+import { ShopLayout } from '@/components/layouts'
+import { ProductList } from '@/components/products'
+import { FullScreenLoading } from '@/components/ui'
 
 
 const Home: NextPage = () => {

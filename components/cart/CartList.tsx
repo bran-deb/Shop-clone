@@ -3,7 +3,7 @@ import { Box, Button, CardActionArea, CardMedia, Grid, Link, Typography } from "
 import NextLink from 'next/link'
 
 import { CartContext } from '@/context';
-import { ICartProduct } from '@/interfaces';
+import { ICartProduct, IOrderItem } from '@/interfaces';
 import { ItemCounter } from '../ui';
 
 // const productsInCart = [
@@ -14,9 +14,10 @@ import { ItemCounter } from '../ui';
 
 interface Props {
     editable?: boolean
+    products?: IOrderItem[]
 }
 
-export const CartList: FC<Props> = ({ editable = false }) => {
+export const CartList: FC<Props> = ({ editable = false, products }) => {
 
     const { cart, updateCartQuantity, removeCartProduct } = useContext(CartContext)
 
@@ -33,10 +34,12 @@ export const CartList: FC<Props> = ({ editable = false }) => {
         )
     }
 
+    const productsToShow = products ? products : cart
+
     return (
         <>
             {//(spacing) para separar los child
-                cart.map(product => (
+                productsToShow.map(product => (
                     <Grid container spacing={2} key={product.slug + product.size} sx={{ mb: 1 }}>
                         <Grid item xs={3}>
                             {/* TODO: llevar a la pagina del producto */}
@@ -65,7 +68,7 @@ export const CartList: FC<Props> = ({ editable = false }) => {
                                             <ItemCounter
                                                 currentValue={product.quantity}
                                                 maxValue={10}
-                                                updateQuantity={(value) => onNewCartQuantityValue(product, value)}
+                                                updateQuantity={(value) => onNewCartQuantityValue(product as ICartProduct, value)}
                                             />
                                         )
                                         : (
@@ -80,7 +83,7 @@ export const CartList: FC<Props> = ({ editable = false }) => {
                             <Typography variant='subtitle1'>{`$${product.price}`}</Typography>
 
                             {/* borrar producto del carrito */}
-                            {deleteButton(product)}
+                            {deleteButton(product as ICartProduct)}
                         </Grid>
                     </Grid>
                 ))

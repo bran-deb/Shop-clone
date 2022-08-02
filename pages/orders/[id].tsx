@@ -16,13 +16,10 @@ interface Props {
 
 const OrderPage: NextPage<Props> = ({ order }) => {
 
-    console.log({ order });
-
-
-    const paid: boolean = true
+    const { isPaid, numberOfItems, orderItems, shippingAddress, _id: id } = order
 
     const payStatus = () => {
-        if (paid) {
+        if (isPaid) {
             return <Chip
                 sx={{ my: 2 }}
                 label='Orden ya fue pagada'
@@ -43,47 +40,34 @@ const OrderPage: NextPage<Props> = ({ order }) => {
     }
 
     return (
-        <ShopLayout title='Resumen de la orden 23145645' pageDescription='Resumen de la orden'>
-            <Typography variant="h1" component='h1'>Orden DGHF231234</Typography>
+        <ShopLayout title='Resumen de la orden' pageDescription='Resumen de la orden'>
+            <Typography variant="h1" component='h1'>Orden: {id}</Typography>
 
             {payStatus()}
 
             <Grid container>
                 <Grid item xs={12} sm={7}>
-                    <CartList />
+                    <CartList products={orderItems} />
                 </Grid>
 
                 <Grid item xs={12} sm={5} >
                     <Card className='summary-card'>
                         <CardContent>
-                            <Typography variant='h2'>Resumen (3 productos)</Typography>
+                            <Typography variant='h2'>Resumen ({numberOfItems} {numberOfItems > 1 ? 'producto' : 'productos'})</Typography>
 
                             <Divider sx={{ my: 1 }} />
 
                             <Box display='flex' justifyContent='space-between' >
                                 <Typography variant='subtitle1'>Direccion de entrega</Typography>
-                                <NextLink href='/checkout/addres' passHref>
-                                    <Link underline='always'>
-                                        Editar
-                                    </Link>
-                                </NextLink>
                             </Box>
 
-                            <Typography>Brandon Jairo</Typography>
-                            <Typography>323 Algun lugar</Typography>
-                            <Typography>Cbba,DKS 235</Typography>
-                            <Typography>Bolivia</Typography>
-                            <Typography>+591 7655432</Typography>
+                            <Typography>{shippingAddress.firstName} {shippingAddress.lastName}</Typography>
+                            <Typography>{shippingAddress.address} {shippingAddress.address2 ? `${shippingAddress.address2}` : ''}</Typography>
+                            <Typography>{shippingAddress.city}</Typography>
+                            <Typography>{shippingAddress.country}</Typography>
+                            <Typography>{shippingAddress.phone}</Typography>
 
                             <Divider sx={{ my: 1 }} />
-
-                            <Box display='flex' justifyContent='end'>
-                                <NextLink href='/cart' passHref>
-                                    <Link underline='always'>
-                                        Editar
-                                    </Link>
-                                </NextLink>
-                            </Box>
 
                             <OrderSumary />
 

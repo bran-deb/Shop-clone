@@ -16,7 +16,7 @@ interface Props {
 
 const OrderPage: NextPage<Props> = ({ order }) => {
 
-    const { isPaid, numberOfItems, orderItems, shippingAddress, _id: id } = order
+    const { isPaid, numberOfItems, orderItems, shippingAddress, _id: id, total, tax, subTotal } = order
 
     const payStatus = () => {
         if (isPaid) {
@@ -69,14 +69,13 @@ const OrderPage: NextPage<Props> = ({ order }) => {
 
                             <Divider sx={{ my: 1 }} />
 
-                            <OrderSumary />
+                            <OrderSumary OrderValues={{ numberOfItems, subTotal, total, tax, }} />
 
-                            <Box sx={{ mt: 3 }}>
+                            <Box sx={{ mt: 3 }} display="flex" flexDirection='column'>
                                 {/* TODO: pagar */}
-                                <h1>Pagar</h1>
+                                {payStatus()}
                             </Box>
 
-                            {payStatus()}
 
                         </CardContent>
                     </Card>

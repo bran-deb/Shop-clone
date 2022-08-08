@@ -1,8 +1,8 @@
 import { GetServerSideProps, NextPage } from 'next'
 import { getSession } from 'next-auth/react';
-import NextLink from 'next/link'
-import { Card, Grid, CardContent, Typography, Divider, Box, Link, Chip } from '@mui/material';
+import { Card, Grid, CardContent, Typography, Divider, Box, Chip } from '@mui/material';
 import { CreditCardOffOutlined, CreditScoreOutlined } from '@mui/icons-material';
+import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
 
 import { CartList, OrderSumary } from '@/components/cart';
 import { ShopLayout } from '@/components/layouts';
@@ -73,7 +73,30 @@ const OrderPage: NextPage<Props> = ({ order }) => {
 
                             <Box sx={{ mt: 3 }} display="flex" flexDirection='column'>
                                 {/* TODO: pagar */}
-                                {payStatus()}
+                                {isPaid
+                                    ? payStatus()
+                                    : <PayPalButtons
+                                        createOrder={(data, actions) => {
+                                            return actions.order.create({
+                                                purchase_units: [
+                                                    {
+                                                        amount: {
+                                                            value: `${order.total}`,
+                                                        },
+                                                    },
+                                                ],
+                                            });
+                                        }}
+                                        onApprove={(data, actions) => {
+                                            return actions.order!.capture().then((details) => {
+                                                console.log({ details });
+
+                                                const name = details.payer.name!.given_name;
+                                                // alert(`Transaction completed by ${name}`);
+                                            });
+                                        }}
+                                    />
+                                }
                             </Box>
 
 

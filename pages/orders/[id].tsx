@@ -1,4 +1,5 @@
 import { GetServerSideProps, NextPage } from 'next'
+import { useRouter } from 'next/router';
 import { getSession } from 'next-auth/react';
 import { Card, Grid, CardContent, Typography, Divider, Box, Chip } from '@mui/material';
 import { CreditCardOffOutlined, CreditScoreOutlined } from '@mui/icons-material';
@@ -8,7 +9,17 @@ import { CartList, OrderSumary } from '@/components/cart';
 import { ShopLayout } from '@/components/layouts';
 import { dbOrders } from '@/database';
 import { IOrder } from '@/interfaces';
+import tesloApi from '@/api/teslaApi';
 
+export type OrderResponseBody = {
+    id: string;
+    status:
+    | "COMPLETED"
+    | "SAVED"
+    | "APPROVED"
+    | "VOIDED"
+    | "PAYER_ACTION_REQUIRED"
+}
 
 interface Props {
     order: IOrder
@@ -16,7 +27,25 @@ interface Props {
 
 const OrderPage: NextPage<Props> = ({ order }) => {
 
+    const router = useRouter()
     const { isPaid, numberOfItems, orderItems, shippingAddress, _id: id, total, tax, subTotal } = order
+
+    const onOrderCompleted = async (details: OrderResponseBody) => {
+        if (details.status !== 'COMPLETED') {
+            return alert('No hay pago en Paypal')
+        }
+        try {
+            const { data } = await tesloApi.post(`/orders/pay`, {
+                transactionId: details.id,
+                orderId: order._id
+            })
+            router.reload()
+
+        } catch (error) {
+            console.log(error)
+            alert('Error')
+        }
+    }
 
     const payStatus = () => {
         if (isPaid) {
@@ -89,9 +118,9 @@ const OrderPage: NextPage<Props> = ({ order }) => {
                                         }}
                                         onApprove={(data, actions) => {
                                             return actions.order!.capture().then((details) => {
-                                                console.log({ details });
-
-                                                const name = details.payer.name!.given_name;
+                                                // console.log({ details });
+                                                onOrderCompleted(details);
+                                                // const name = details.payer.name!.given_name;
                                                 // alert(`Transaction completed by ${name}`);
                                             });
                                         }}

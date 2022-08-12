@@ -1,7 +1,7 @@
 import { FC } from "react";
 import Head from "next/head";
 
-import { Navbar, SideMenu } from "../ui";
+import { Navbar, SideMenu } from "@/components/ui";
 
 
 interface Props {

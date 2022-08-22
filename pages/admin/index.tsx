@@ -1,11 +1,11 @@
-import { FC, useState } from 'react';
+import { FC, useState, useEffect } from 'react';
 import { Grid, Typography } from "@mui/material";
+import useSWR from 'swr';
 import { DashboardOutlined, CreditCardOffOutlined, AttachMoneyOutlined, GroupAddOutlined, CancelPresentationOutlined, ProductionQuantityLimitsOutlined, CategoryOutlined, AccessTimeOutlined } from '@mui/icons-material';
 
 import { DashboardSummaryResponse } from "@/interfaces";
 import { AdminLayout } from "@/components/layouts";
 import { SumaryTile } from "@/components/admin";
-import useSWR from 'swr';
 
 
 const DashboardPage: FC = () => {
@@ -13,7 +13,17 @@ const DashboardPage: FC = () => {
     const { data, error } = useSWR<DashboardSummaryResponse>('/api/admin/dashboard', {
         refreshInterval: 30 * 1000 // 30 seg
     })
-    const [refresh, setRefresh] = useState(30);
+    const [refreshIn, setRefreshIn] = useState(30);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            console.log('tick');
+            setRefreshIn(refreshIn ? refreshIn - 1 : 30)
+        }, 1000)
+
+        return () => clearInterval(interval)
+
+    }, [refreshIn])
 
     if (!data && !error) return <></>
 
@@ -74,7 +84,7 @@ const DashboardPage: FC = () => {
                     icon={<ProductionQuantityLimitsOutlined color='warning' sx={{ fontSize: 40 }} />}
                 />
                 <SumaryTile
-                    title={8}
+                    title={refreshIn}
                     subtitle="Actualizacion en:"
                     icon={<AccessTimeOutlined color='secondary' sx={{ fontSize: 40 }} />}
                 />

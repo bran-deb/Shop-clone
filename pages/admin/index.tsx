@@ -1,36 +1,42 @@
-import { FC, useState, useEffect } from 'react';
-import { Grid, Typography } from "@mui/material";
+import { useState, useEffect } from 'react';
+import { Grid, Typography } from '@mui/material'
+import { AttachMoneyOutlined, CreditCardOffOutlined, CreditCardOutlined, DashboardOutlined, GroupOutlined, CategoryOutlined, CancelPresentationOutlined, ProductionQuantityLimitsOutlined, AccessTimeOutlined } from '@mui/icons-material';
 import useSWR from 'swr';
-import { DashboardOutlined, CreditCardOffOutlined, AttachMoneyOutlined, GroupAddOutlined, CancelPresentationOutlined, ProductionQuantityLimitsOutlined, CategoryOutlined, AccessTimeOutlined } from '@mui/icons-material';
 
-import { DashboardSummaryResponse } from "@/interfaces";
-import { AdminLayout } from "@/components/layouts";
-import { SumaryTile } from "@/components/admin";
+import { DashboardSummaryResponse } from '@/interfaces';
+import { AdminLayout } from '@/components/layouts'
+import { SumaryTile } from '@/components/admin'
 
-
-const DashboardPage: FC = () => {
+const DashboardPage = () => {
 
     const { data, error } = useSWR<DashboardSummaryResponse>('/api/admin/dashboard', {
-        refreshInterval: 30 * 1000 // 30 seg
-    })
+        refreshInterval: 30 * 1000 // 30 segundos
+    });
+
     const [refreshIn, setRefreshIn] = useState(30);
 
     useEffect(() => {
         const interval = setInterval(() => {
-            console.log('tick');
-            setRefreshIn(refreshIn ? refreshIn - 1 : 30)
-        }, 1000)
+            console.log('Tick');
+            setRefreshIn(refreshIn => refreshIn > 0 ? refreshIn - 1 : 30);
+        }, 1000);
 
         return () => clearInterval(interval)
+    }, []);
 
-    }, [refreshIn])
 
-    if (!data && !error) return <></>
+
+
+    if (!error && !data) {
+        return <></>
+    }
 
     if (error) {
-        console.log(error)
-        return <Typography>Error al cargar la informacion</Typography>
+        console.log(error);
+        return <Typography>Error al cargar la información</Typography>
     }
+
+
     const {
         numberOfOrders,
         paidOrders,
@@ -38,59 +44,72 @@ const DashboardPage: FC = () => {
         numberOfProducts,
         productsWithNoInventory,
         lowInventory,
-        notPaidOrders
-    } = data!
+        notPaidOrders,
+    } = data!;
+
 
     return (
         <AdminLayout
-            title='DashBoard'
+            title='Dashboard'
             subTitle='Estadisticas generales'
             icon={<DashboardOutlined />}
         >
+
             <Grid container spacing={2}>
+
                 <SumaryTile
                     title={numberOfOrders}
                     subtitle="Ordenes totales"
-                    icon={<CreditCardOffOutlined color='secondary' sx={{ fontSize: 40 }} />}
+                    icon={<CreditCardOutlined color="secondary" sx={{ fontSize: 40 }} />}
                 />
+
                 <SumaryTile
                     title={paidOrders}
                     subtitle="Ordenes pagadas"
-                    icon={<AttachMoneyOutlined color='success' sx={{ fontSize: 40 }} />}
+                    icon={<AttachMoneyOutlined color="success" sx={{ fontSize: 40 }} />}
                 />
+
                 <SumaryTile
                     title={notPaidOrders}
                     subtitle="Ordenes pendientes"
-                    icon={<CreditCardOffOutlined color='error' sx={{ fontSize: 40 }} />}
+                    icon={<CreditCardOffOutlined color="error" sx={{ fontSize: 40 }} />}
                 />
+
                 <SumaryTile
                     title={numberOfClients}
                     subtitle="Clientes"
-                    icon={<GroupAddOutlined color='primary' sx={{ fontSize: 40 }} />}
+                    icon={<GroupOutlined color="primary" sx={{ fontSize: 40 }} />}
                 />
+
                 <SumaryTile
                     title={numberOfProducts}
                     subtitle="Productos"
-                    icon={<CategoryOutlined color='warning' sx={{ fontSize: 40 }} />}
+                    icon={<CategoryOutlined color="warning" sx={{ fontSize: 40 }} />}
                 />
+
                 <SumaryTile
                     title={productsWithNoInventory}
                     subtitle="Sin existencias"
-                    icon={<CancelPresentationOutlined color='error' sx={{ fontSize: 40 }} />}
+                    icon={<CancelPresentationOutlined color="error" sx={{ fontSize: 40 }} />}
                 />
+
                 <SumaryTile
                     title={lowInventory}
                     subtitle="Bajo inventario"
-                    icon={<ProductionQuantityLimitsOutlined color='warning' sx={{ fontSize: 40 }} />}
+                    icon={<ProductionQuantityLimitsOutlined color="warning" sx={{ fontSize: 40 }} />}
                 />
+
                 <SumaryTile
                     title={refreshIn}
-                    subtitle="Actualizacion en:"
-                    icon={<AccessTimeOutlined color='secondary' sx={{ fontSize: 40 }} />}
+                    subtitle="Actualización en:"
+                    icon={<AccessTimeOutlined color="secondary" sx={{ fontSize: 40 }} />}
                 />
+
             </Grid>
+
+
         </AdminLayout>
     )
-};
+}
 
-export default DashboardPage;
+export default DashboardPage

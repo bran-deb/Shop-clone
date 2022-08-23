@@ -1,12 +1,13 @@
-import { db } from '@/database'
-import { User } from '@/models'
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { IUser } from '../../../interfaces/user';
 import { isValidObjectId } from 'mongoose';
+
+import { IUser } from '@/interfaces';
+import { User } from '@/models'
+import { db } from '@/database'
 
 type Data =
     | { message: string }
-    | { users: IUser[] }
+    | IUser[]
 
 export default function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
 
@@ -26,7 +27,7 @@ const getUsers = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
     const users = await User.find().select('-password').lean()
     await db.disconnect()
 
-    res.status(200).json({ users })
+    res.status(200).json(users)
 }
 
 const updateUsers = async (req: NextApiRequest, res: NextApiResponse<Data>) => {

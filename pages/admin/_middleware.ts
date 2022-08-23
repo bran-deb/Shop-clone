@@ -11,13 +11,15 @@ export async function middleware(req: NextRequest | any, ev: NextFetchEvent) {
         const url = req.nextUrl.clone();
         url.pathname = '/auth/login';
         url.search = `p=${req.page.name}`;
-        return NextResponse.redirect(url);
+        return NextResponse.redirect(url)
     }
 
     const validRoles = ['admin', 'super-user', 'SEO'];
 
-    if (validRoles.includes(session.user.role)) {
-        return NextResponse.redirect('/')
+    if (!validRoles.includes(session.user.role)) {
+        const url = req.nextUrl.clone();
+        url.pathname = '/';
+        return NextResponse.redirect(url)
     }
 
     return NextResponse.next();

@@ -1,11 +1,12 @@
 import { NextPage } from 'next';
-import { Grid } from '@mui/material';
 import { PeopleOutline } from '@mui/icons-material';
+import { Grid, MenuItem, Select } from '@mui/material';
 import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
 import useSWR from 'swr';
 
 import { AdminLayout } from '@/components/layouts';
 import { IUser } from '@/interfaces';
+import tesloApi from '@/api/teslaApi';
 
 
 const UsersPage: NextPage = () => {
@@ -14,10 +15,40 @@ const UsersPage: NextPage = () => {
 
     if (!data && !error) return (<></>)
 
+    const onRoleUpdated = async (userId: string, newRole: string) => {
+
+        try {
+            await tesloApi.put('/admin/users', { userId, role: newRole })
+
+        } catch (error) {
+            console.log(error);
+            alert('No se pudo actualizar el role del usuario')
+        }
+    }
+
     const columns: GridColDef[] = [
         { field: 'email', headerName: 'Correo', width: 250 },
         { field: 'name', headerName: 'Nombre completo', width: 300 },
-        { field: 'role', headerName: 'Rol', width: 300 },
+        {
+            field: 'role',
+            headerName: 'Rol',
+            width: 300,
+            renderCell: ({ row }: GridValueGetterParams) => {
+                return (
+                    <Select
+                        value={row.role}
+                        label="Rol"
+                        onChange={({ target }) => onRoleUpdated(row.id, target.value)}
+                        sx={{ width: '300px' }}
+                    >
+                        <MenuItem value='admin'>Admin</MenuItem>
+                        <MenuItem value='client'>Client</MenuItem>
+                        <MenuItem value='super-user'>Super user</MenuItem>
+                        <MenuItem value='SEO'>SEO</MenuItem>
+                    </Select>
+                )
+            }
+        },
     ]
 
     const rows = data!.map(user => ({

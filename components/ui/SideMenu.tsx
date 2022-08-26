@@ -145,7 +145,7 @@ export const SideMenu: FC = () => {
                                 <ListItemIcon>
                                     <DashboardOutlined />
                                 </ListItemIcon>
-                                <ListItemText primary={'Dashbiard'} />
+                                <ListItemText primary={'Dashboard'} />
                             </ListItem>
                             <ListItem button>
                                 <ListItemIcon>
@@ -153,7 +153,10 @@ export const SideMenu: FC = () => {
                                 </ListItemIcon>
                                 <ListItemText primary={'Productos'} />
                             </ListItem>
-                            <ListItem button>
+                            <ListItem
+                                button
+                                onClick={() => navigateTo('/admin/orders')}
+                            >
                                 <ListItemIcon>
                                     <ConfirmationNumberOutlined />
                                 </ListItemIcon>

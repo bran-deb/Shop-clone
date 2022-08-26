@@ -33,7 +33,7 @@ const getUsers = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
 const updateUsers = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
 
     const { userId = '', role = '' } = req.body
-    const validRoles = ['admin', 'super-user', 'SEO', 'Client']
+    const validRoles = ['admin', 'super-user', 'SEO', 'client']
 
     if (!isValidObjectId(userId)) {
         return res.status(400).json({ message: 'Bad request' })

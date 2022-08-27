@@ -13,7 +13,7 @@ export default function handle(req: NextApiRequest, res: NextApiResponse<Data>) 
 
     switch (req.method) {
         case 'GET':
-            getOrders(req, res)
+            return getOrders(req, res)
         default:
             return res.status(400).json({ message: 'Bad request' })
     }

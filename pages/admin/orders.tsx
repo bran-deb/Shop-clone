@@ -33,7 +33,6 @@ const columns: GridColDef[] = [
         }
     },
     { field: 'createdAt', headerName: 'Creada en', width: 300 },
-
 ]
 
 

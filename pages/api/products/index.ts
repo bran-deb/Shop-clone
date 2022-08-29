@@ -9,16 +9,13 @@ type Data =
     | IProduct[]
 // | { products: IProduct[] }
 
-
 export default function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
 
     switch (req.method) {
         case 'GET':
             return getProducts(req, res)
         default:
-            return res.status(400).json({
-                message: 'Bad request'
-            })
+            return res.status(400).json({ message: 'Bad request' })
     }
 }
 
@@ -41,7 +38,5 @@ const getProducts = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
         .lean()
     await db.disconnect()
 
-    return res.status(200).json(
-        products
-    )
+    return res.status(200).json(products)
 }

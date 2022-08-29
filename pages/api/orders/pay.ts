@@ -2,8 +2,8 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import axios from 'axios'
 
 import { IPaypal } from '@/interfaces'
-import { db } from '@/database'
 import { Order } from '@/models'
+import { db } from '@/database'
 
 type Data = {
     message: string
@@ -88,7 +88,6 @@ const payOrder = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
     dbOrder.transactionId = transactionId
     dbOrder.isPaid = true
     dbOrder.save()
-
     await db.disconnect()
 
     return res.status(200).json({ message: 'Orden pagada' })

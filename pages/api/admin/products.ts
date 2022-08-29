@@ -1,7 +1,8 @@
-import { db } from '@/database'
-import { IProduct } from '@/interfaces'
 import type { NextApiRequest, NextApiResponse } from 'next'
+
+import { IProduct } from '@/interfaces'
 import { Product } from '@/models';
+import { db } from '@/database'
 
 type Data =
     | { message: string }
@@ -27,11 +28,7 @@ const getProducts = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
     await db.connect()
     const products = await Product.find().sort({ title: 'asc' }).lean()
     await db.disconnect()
-
-    if (!products) {
-        return res.status(400).json({ message: 'No hay productos' })
-    }
     //TODO: actualizar imagenes
 
-    return res.status(200).json(products)
+    res.status(200).json(products)
 }

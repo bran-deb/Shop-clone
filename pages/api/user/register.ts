@@ -21,32 +21,23 @@ export default function handler(req: NextApiRequest, res: NextApiResponse<Data>)
     switch (req.method) {
         case 'POST':
             return registerUser(req, res)
-
         default:
             res.status(400).json({ message: 'No valido' })
-
     }
 }
-
 
 const registerUser = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
 
     const { name = '', email = '', password = '' } = req.body as { name: string, email: string, password: string }
 
     if (password.length < 6) {
-        return res.status(400).json({
-            message: 'La contraseña debe de ser de 6 caracteres o mas'
-        })
+        return res.status(400).json({ message: 'La contraseña debe de ser de 6 caracteres o mas' })
     }
     if (name.length < 2) {
-        return res.status(400).json({
-            message: 'El nombre debe de ser de 2 caracteres'
-        })
+        return res.status(400).json({ message: 'El nombre debe de ser de 2 caracteres' })
     }
     if (!validations.isValidEmail(email)) {
-        return res.status(400).json({
-            message: `[${email}] no tiene formato de correo valido`
-        })
+        return res.status(400).json({ message: `[${email}] no tiene formato de correo valido` })
     }
 
 

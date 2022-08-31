@@ -10,6 +10,7 @@ export const getProductBySlug = async (slug: string): Promise<IProduct | null> =
     await db.disconnect()
 
     if (!product) return null
+    //TODO: procesamiento de las imagenes cuando se suban al server
     return JSON.parse(JSON.stringify(product))
 }
 

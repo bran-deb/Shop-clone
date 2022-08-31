@@ -1,8 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { getSession } from 'next-auth/react';
-import { db } from '@/database';
-import { IOrder } from '@/interfaces';
+
 import { Product, Order } from '@/models';
+import { IOrder } from '@/interfaces';
+import { db } from '@/database';
 
 type Data =
     | { message: string }
@@ -16,7 +17,6 @@ export default function handler(req: NextApiRequest, res: NextApiResponse<Data>)
         default:
             return res.status(400).json({ message: 'Bad request' })
     }
-
 }
 
 
@@ -42,7 +42,7 @@ const createOrder = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
     try {
         const subTotal = orderItems.reduce((prev, current) => {
             /* Getting the price of the product that is in the orderItems array. */
-            const currentPrice = dbProducts.find(prod => prod.id === current._id)?.price
+            const currentPrice: any = dbProducts.find(prod => prod.id === current._id)?.price
             /* Checking if the currentPrice is undefined, if it is, it throws an error. */
             if (!currentPrice) {
                 throw new Error('Verifica el carrito de nuevo, producto no existe')

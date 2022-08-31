@@ -1,9 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import bcrypt from 'bcryptjs';
 
-import { db } from '@/database'
-import { jwt } from '@/utilities';
 import { User } from '@/models'
+import { jwt } from '@/utilities';
+import { db } from '@/database'
 
 type Data =
     | { message: string }
@@ -21,7 +21,6 @@ export default function handler(req: NextApiRequest, res: NextApiResponse<Data>)
     switch (req.method) {
         case 'POST':
             return loginUser(req, res)
-
         default:
             return res.status(400).json({ message: 'Bad request' })
     }
